@@ -1,10 +1,9 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vpay/src/models/category.dart';
 import 'package:provider/provider.dart';
+import 'package:vpay/src/pages/product%20details/details_page.dart';
 
 import 'package:vpay/src/provider/products_provider.dart';
 
@@ -21,6 +20,7 @@ class CategoryWidget extends StatefulWidget {
 class _CategoryWidgetState extends State<CategoryWidget> {
   ProductsProvider provider;
   TextTheme textTheme;
+  ThemeData theme;
   Category category = Category();
 
   @override
@@ -29,11 +29,14 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     provider = Provider.of<ProductsProvider>(context);
 
     textTheme = Theme.of(context).textTheme;
+    theme = Theme.of(context);
   }
 
   @override
   Widget build(BuildContext context) {
     print('building categories');
+
+    final ThemeData theme = Theme.of(context);
 
     Orientation orientation = MediaQuery.of(context).orientation;
 
@@ -47,17 +50,19 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
                 mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: 1 / 1.5),
+                crossAxisSpacing: 14,
+                childAspectRatio: 1 / 1.4),
             padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
             addAutomaticKeepAlives: true,
             scrollDirection: Axis.vertical,
             itemCount: products.length,
             itemBuilder: (BuildContext context, int index) {
               return ProductWidget(
+                focusNode: new FocusNode(),
                 product: products[index],
                 index: index,
                 textTheme: textTheme,
+                theme: theme,
               );
             },
           );
@@ -66,36 +71,15 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
 class ProductWidget extends StatelessWidget {
   final Product product;
+  final FocusNode focusNode;
   final int index;
   final TextTheme textTheme;
-  const ProductWidget({this.product, this.textTheme, this.index});
-
-  void showModal(context) {
-    showModalBottomSheet(
-      elevation: 0,
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return MyModal(
-          product: product,
-        );
-      },
-    );
-  }
+  final ThemeData theme;
+  const ProductWidget(
+      {this.product, this.theme, this.textTheme, this.index, this.focusNode});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: null,
-      //  () {
-      //   // showModal(context);
-      // },
-      child: contents(),
-    );
-  }
-
-  Widget contents() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -105,11 +89,11 @@ class ProductWidget extends StatelessWidget {
           Container(
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(16),
-                boxShadow: shadows(),
+                // boxShadow: shadows(),
               ),
-              child: interactions(),
+              child: image(),
             ),
           ),
           descriptors(),
@@ -118,147 +102,93 @@ class ProductWidget extends StatelessWidget {
     );
   }
 
-  List<BoxShadow> shadows() => [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.3),
-          offset: Offset(5, 1),
-          spreadRadius: -5,
-          blurRadius: 5,
-        ),
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.3),
-          offset: Offset(1, 5),
-          spreadRadius: -5,
-          blurRadius: 5,
-        ),
-        BoxShadow(
-          color: Colors.black.withOpacity(0.1),
-          offset: Offset(0, 5),
-          spreadRadius: 0,
-          blurRadius: 5,
-        ),
-      ];
-
-  Widget interactions() {
+  Widget image() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: AspectRatio(
-        aspectRatio: 1 / 1.25,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            image(),
-            // actions(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget image() => index == null
-      ? Colors.grey[400]
-      : Padding(
-          padding: const EdgeInsets.all(0.0),
+        aspectRatio: 1 / 1.1,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
           child: DecoratedBox(
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  'assets/${(index % 4) + 1}.jpg',
+                  'assets/${(index % 4) + 2}.png',
                 ),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-        );
-
-  Widget descriptors() => Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Ideal Milk (Regular)',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: textTheme.bodyText2.copyWith(
-                    fontWeight: FontWeight.w500, color: Colors.black87),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                'GHS${product.price}',
-                style: textTheme.overline.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
-          Transform(
-            origin: Offset(10, 0),
-            transform: Matrix4.rotationY(pi),
-            child: action(
-                icon: Icons.add_shopping_cart,
-                onTap: () {
-                  print('shop');
-                }),
-          )
-        ],
-      );
-
-  Widget actions() {
-    return Align(
-      alignment: Alignment.bottomRight,
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(0)),
-        child: Container(
-          color: Colors.black38,
-          child: SizedBox(
-            height: 50,
-            child: Row(
-              // mainAxisSize: MainAxisSize.min
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                action(
-                    icon: Icons.edit,
-                    onTap: () {
-                      print('edit');
-                    }),
-                action(
-                    icon: Icons.add_shopping_cart,
-                    onTap: () {
-                      print('shop');
-                    }),
-              ],
-            ),
-          ),
         ),
       ),
     );
   }
 
-  Widget action({IconData icon, void Function() onTap}) => InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(0),
-          child: Icon(
-            icon,
-            color: Colors.grey[800],
-            size: 22,
+  Widget descriptors() => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Ideal Milk (Regular)',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: textTheme.caption
+                .copyWith(fontWeight: FontWeight.w500, color: Colors.black87),
+          ),
+          SizedBox(
+            height: 4,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text(
+                  'GHS${product.price}',
+                  style: textTheme.overline.copyWith(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 12,
+                    color: theme.accentColor,
+                  ),
+                ),
+              ),
+              action(
+                Icons.shopping_basket,
+              )
+            ],
+          )
+        ],
+      );
+
+  Widget action(IconData icon) => Builder(
+        builder: (BuildContext context) => Padding(
+          padding: const EdgeInsets.only(right: 2),
+          child: InkWell(
+            onTap: () {
+              viewProduct(context);
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Container(
+                height: 25,
+                width: 25,
+                color: theme.accentColor.withOpacity(0.15),
+                child: Icon(
+                  icon,
+                  color: theme.accentColor,
+                  size: 17,
+                ),
+              ),
+            ),
           ),
         ),
       );
 
-  void moveToView(BuildContext context) {
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) => ProductPage(
-    //               product: product,
-    //             )));
+  void viewProduct(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailsPage(
+                  product: product,
+                )));
   }
 
   void moveToEdit(BuildContext context) {
@@ -278,4 +208,141 @@ class ProductWidget extends StatelessWidget {
       builder: (context) => MyModal(),
     );
   }
+}
+
+class Interactor extends StatefulWidget {
+  final Product product;
+  Interactor({this.product});
+  @override
+  _InteractorState createState() => _InteractorState();
+}
+
+class _InteractorState extends State<Interactor> with TickerProviderStateMixin {
+  AnimationController controller;
+  Animation<double> slideAnimation, scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    slideAnimation = Tween<double>(begin: 0, end: 0.2)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+
+    scaleAnimation = Tween<double>(begin: 0, end: 1)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+  }
+
+  void showModal(context) {
+    showModalBottomSheet(
+      elevation: 0,
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return MyModal(
+          product: widget.product,
+        );
+      },
+    );
+  }
+
+  void animate() {
+    if (controller.isCompleted) {
+      controller.reverse();
+    } else
+      controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        animate();
+      },
+      child: AnimatedBuilder(
+        animation: scaleAnimation,
+        builder: (context, child) => Opacity(
+          opacity: scaleAnimation.value,
+          child: SizedBox.expand(
+            child: Container(
+              color: Theme.of(context)
+                  .accentColor
+                  .withOpacity(scaleAnimation.value),
+              child: ScaleTransition(
+                scale: scaleAnimation,
+                child: actions(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget actions() {
+    return AnimatedBuilder(
+      animation: scaleAnimation,
+      builder: (context, child) => Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              // mainAxisSize: MainAxisSize.min
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                action(
+                    icon: Icons.edit,
+                    onTap: () {
+                      print('edit');
+                    }),
+                SizedBox(
+                  width: 15,
+                ),
+                Text('Edit', style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              // mainAxisSize: MainAxisSize.min
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                action(
+                    icon: Icons.add_shopping_cart,
+                    onTap: () {
+                      print('shop');
+                    }),
+                SizedBox(
+                  width: 15,
+                ),
+                Text('Add', style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget action({IconData icon, void Function() onTap}) => InkWell(
+        onTap: onTap,
+        child: Card(
+          margin: EdgeInsets.zero,
+          color: Colors.white,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          child: IconButton(
+            iconSize: 20,
+            onPressed: () {},
+            icon: Icon(
+              icon,
+              color: Theme.of(context).accentColor,
+              size: 20,
+            ),
+          ),
+        ),
+      );
 }

@@ -8,12 +8,25 @@ class ProductsProvider extends f.ChangeNotifier {
   List<Product> products = [];
 
   ProductsProvider() {
+    getData();
+  }
+
+  getData() {
     repo.getCategories().then((value) {
       setCategories(value);
     });
     repo.getProductsList().then((value) {
       setProducts(value);
     });
+  }
+
+  Future refresh() async {
+    return await Future.delayed(
+      Duration(seconds: 2),
+      () async {
+        getData();
+      },
+    );
   }
 
   setProducts(List<Product> products) {

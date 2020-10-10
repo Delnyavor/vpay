@@ -76,6 +76,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
   List<Category> categories = [];
   Category selectedCategory = Category(name: "");
 
+  bool completed = false;
   Animation<Offset> offsetAnimation;
   Animation<BorderRadius> radiusAnimation;
   Animation<double> scaleAnimation, rotationAnimation;
@@ -111,8 +112,6 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
             parent: widget.animationController,
             curve: Interval(0.4, 1, curve: Curves.linear)));
   }
-
-  bool completed = false;
 
   @override
   void initState() {

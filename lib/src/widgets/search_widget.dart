@@ -90,30 +90,33 @@ class SearchWidget extends StatelessWidget {
   }
 
   Widget alt(context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 16, top: 13),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.blueGrey[50]),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 6, 0),
-              child: Icon(
-                Icons.search,
-                size: 20,
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 16, top: 13),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Colors.blueGrey[50]),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 0, 6, 0),
+                child: Icon(
+                  Icons.search,
+                  size: 20,
+                ),
               ),
-            ),
-            Text(
-              'Search for a product',
-              textAlign: TextAlign.left,
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  .copyWith(letterSpacing: 0.5, color: Colors.black45),
-            ),
-          ],
+              Text(
+                'Search for a product',
+                textAlign: TextAlign.left,
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    .copyWith(letterSpacing: 0.5, color: Colors.black45),
+              ),
+            ],
+          ),
         ),
       ),
     );

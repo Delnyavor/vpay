@@ -11,6 +11,7 @@ import 'src/pages/auth/signup.dart';
 
 import 'src/pages/auth/login.dart';
 import 'src/pages/auth/verification.dart';
+import 'src/pages/product details/details_page.dart';
 import 'src/utils/screen_adaptor.dart';
 
 void main() => runApp(MyApp());
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           Routes.inventory: (context) => InventoryPage(),
           Routes.landing: (context) => LandingPage(),
           Routes.modal: (context) => MyModal(),
+          Routes.product: (context) => DetailsPage()
         },
       ),
     );
@@ -72,6 +74,7 @@ class Routes {
   static String finalisation = 'finalisation';
   static String inventory = 'inventory';
   static String modal = 'modal';
+  static String product = 'product';
 }
 
 class Landing extends StatefulWidget {
