@@ -7,7 +7,6 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  bool _autoValidate = false;
   String _businessName, _paymentNumber;
   Animation<double> animation;
   Tween<double> tween;
@@ -103,7 +102,6 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Form(
                 key: _formKey,
-                autovalidate: _autoValidate,
                 child: form(),
               ),
             ),

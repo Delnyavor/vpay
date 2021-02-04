@@ -69,7 +69,6 @@ class _UserDetailsState extends State<UserDetails>
               ),
               child: Form(
                 key: _formKey,
-                autovalidate: _autoValidate,
                 child: form(),
               ),
             ),

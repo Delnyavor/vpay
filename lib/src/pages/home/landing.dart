@@ -23,7 +23,7 @@ class _LandingPageState extends State<LandingPage>
   void initState() {
     super.initState();
     animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 350));
   }
 
   @override
@@ -98,19 +98,19 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
     radiusAnimation = Tween<BorderRadius>(
             begin: BorderRadius.circular(0), end: BorderRadius.circular(20))
         .animate(CurvedAnimation(
-            parent: widget.animationController, curve: Curves.easeOut));
+            parent: widget.animationController, curve: Curves.linear));
 
-    offsetAnimation = Tween<Offset>(begin: Offset.zero, end: Offset(0.82, 0))
+    offsetAnimation = Tween<Offset>(begin: Offset.zero, end: Offset(0, 0.8))
         .animate(CurvedAnimation(
-            parent: widget.animationController, curve: Curves.easeInOut));
+            parent: widget.animationController, curve: Curves.linear));
 
-    scaleAnimation = Tween<double>(begin: 1, end: 0.9).animate(CurvedAnimation(
-        parent: widget.animationController, curve: Curves.easeInOut));
+    scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(CurvedAnimation(
+        parent: widget.animationController, curve: Curves.linear));
 
     rotationAnimation = Tween<double>(begin: 0, end: 0.5).animate(
         CurvedAnimation(
             parent: widget.animationController,
-            curve: Interval(0.4, 1, curve: Curves.linear)));
+            curve: Interval(0.4, 1, curve: Curves.fastOutSlowIn)));
   }
 
   @override
@@ -145,25 +145,31 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
       animation: radiusAnimation,
       builder: (context, builderChild) => SlideTransition(
         position: offsetAnimation,
-        child: ScaleTransition(
-          scale: scaleAnimation,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: radiusAnimation.value,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black
-                        .withOpacity(widget.animationController.value * 0.05),
-                    spreadRadius: -4,
-                    blurRadius: 15),
-              ],
-            ),
+        child: Transform(
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.0005)
+            ..rotateX(rotationAnimation.value),
+          alignment: FractionalOffset.center,
+          child: ScaleTransition(
+            scale: scaleAnimation,
             child: DecoratedBox(
               decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: radiusAnimation.value,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black
+                          .withOpacity(widget.animationController.value * 0.05),
+                      spreadRadius: -4,
+                      blurRadius: 15),
+                ],
               ),
-              child: builderChild,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: radiusAnimation.value,
+                ),
+                child: builderChild,
+              ),
             ),
           ),
         ),
@@ -181,24 +187,21 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
           child: Text(
             'Vpay',
             textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.normal),
+            style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5),
           ),
         ),
         primary: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        leading: RotationTransition(
-          turns: rotationAnimation,
-          child: IconButton(
-            onPressed: () {
-              if (widget.animationController.isCompleted)
-                widget.animationController.reverse();
-              else
-                widget.animationController.forward();
-            },
-            icon: Icon(Icons.sort),
-          ),
+        leading: IconButton(
+          onPressed: () {
+            if (widget.animationController.isCompleted)
+              widget.animationController.reverse();
+            else
+              widget.animationController.forward();
+          },
+          icon: Icon(Icons.sort),
         ),
         actions: <Widget>[
           IconButton(
@@ -317,7 +320,43 @@ class _BackLayerState extends State<BackLayer> {
           color: Colors.white,
         ),
         title: Text('Logout', style: theme),
-      )
+      ),
+      ListTile(
+        leading: Icon(
+          FontAwesomeIcons.ccAmazonPay,
+          size: 18,
+          color: Colors.white,
+        ),
+        title: Text('Transactions', style: theme),
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => SalesReportPage()));
+        },
+      ),
+      ListTile(
+        leading: Icon(
+          FontAwesomeIcons.creditCard,
+          size: 18,
+          color: Colors.white,
+        ),
+        title: Text('Enter Promo Code', style: theme),
+      ),
+      ListTile(
+        leading: Icon(
+          Icons.settings,
+          size: 18,
+          color: Colors.white,
+        ),
+        title: Text('Settings', style: theme),
+      ),
+      ListTile(
+        leading: Icon(
+          FontAwesomeIcons.outdent,
+          size: 18,
+          color: Colors.white,
+        ),
+        title: Text('Logout', style: theme),
+      ),
     ];
   }
 
@@ -326,11 +365,12 @@ class _BackLayerState extends State<BackLayer> {
     return DecoratedBox(
       decoration: BoxDecoration(color: Colors.white12),
       child: CustomScrollView(
-        anchor: 0.4,
+        reverse: true,
+        anchor: 0.1,
         controller: controller,
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
+            padding: const EdgeInsets.fromLTRB(25, 50, 25, 50),
             sliver: SliverList(
               delegate: SliverChildListDelegate(children()),
             ),

@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primaryColor: Color(0xff2dc8ac),
-          accentColor: Color(0xff6E60D0),
+          accentColor: Color(0xff0080F6),
           fontFamily: GoogleFonts.lato().fontFamily,
           textTheme: GoogleFonts.latoTextTheme().copyWith(
             bodyText2: TextStyle(
@@ -110,7 +110,7 @@ class _LandingState extends State<Landing> {
             FirebaseAuth auth = FirebaseAuth.instance;
             auth.currentUser().then((user) {
               if (user != null)
-                Navigator.pushNamed(context, 'inventory');
+                Navigator.pushNamed(context, Routes.inventory);
               else
                 Navigator.pushNamed(context, Routes.landing);
             });

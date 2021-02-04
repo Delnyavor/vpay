@@ -10,7 +10,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  bool _autoValidate = false;
   bool _obfuscation = true;
   bool _isLoading = false;
   String _email, _password;
@@ -153,7 +152,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 padding: EdgeInsets.fromLTRB(30, 0, 30, 50),
                 child: Form(
                   key: _formKey,
-                  autovalidate: _autoValidate,
+                  autovalidateMode: AutovalidateMode.disabled,
                   child: form(),
                 ),
               ),

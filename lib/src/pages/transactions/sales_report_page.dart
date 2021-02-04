@@ -1,20 +1,32 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:vpay/src/widgets/slivers.dart';
+import 'package:vpay/src/widgets/chart.dart';
+import 'package:vpay/src/widgets/recent_activity_widget.dart';
 
 class SalesReportPage extends StatefulWidget {
   @override
   _SalesReportPageState createState() => _SalesReportPageState();
 }
 
-class _SalesReportPageState extends State<SalesReportPage> {
-  TextTheme theme;
-  DateTime time = DateTime.now();
+class _SalesReportPageState extends State<SalesReportPage>
+    with TickerProviderStateMixin {
+  TextTheme textTheme;
+  ThemeData theme;
+  TabController tabController;
+  List<String> periods = ['1D', '1W', '1M', '3M', '6M', '1Y'];
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    theme = Theme.of(context).textTheme;
+    textTheme = Theme.of(context).textTheme;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tabController = TabController(vsync: this, length: 6);
   }
 
   @override
@@ -22,26 +34,30 @@ class _SalesReportPageState extends State<SalesReportPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            header(),
-            SliverPadding(
-              padding: const EdgeInsets.all(15.0),
-              sliver: SliverHeader(
-                child: Center(
-                    child: Text('GHC 255.70',
-                        style: theme.headline4.copyWith(fontSize: 28))),
-              ),
-            ),
-            options(),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text('$index'),
-                  );
-                },
-              ),
+        child: ListView(
+          children: [
+            topBar(),
+            percs(),
+            periodBar(),
+            revenue(),
+            Chart(),
+            LastActivitiesWidget()
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget topBar() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 30),
+      child: SizedBox(
+        height: 52,
+        child: Row(
+          children: [
+            Text(
+              'Dashboard',
+              style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1),
             ),
           ],
         ),
@@ -49,130 +65,128 @@ class _SalesReportPageState extends State<SalesReportPage> {
     );
   }
 
-  Widget header() {
-    return SliverHeader(
-      minHeight: 70,
-      maxHeight: 70,
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              icon: Icon(Icons.sort),
-              onPressed: () {},
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                Text(
-                  'Balance',
-                  style: theme.subtitle1,
-                ),
-                Text(
-                  " ${time.weekday}, ${time.month}, ${time.day} ${time.year} ",
-                  style: theme.overline,
-                )
-              ],
-            ),
-          ),
-        ],
+  Widget percs() {
+    return AspectRatio(
+      aspectRatio: 2.15,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+        // color: Colors.green,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            percsWidget(Color(0xf00080F6), 'GHC 1,234.56', 'Product In'),
+            percsWidget(Color(0xdd00A0EF), 'GHC 1,234.56', 'Product Out'),
+          ],
+        ),
       ),
     );
   }
 
-  Widget options() {
-    return SliverHeader(
-      minHeight: 130,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+  Widget percsWidget(Color color, String amount, String type) {
+    return AspectRatio(
+      aspectRatio: 1.1,
+      child: PhysicalModel(
+        // color: Colors.transparent,
+        borderRadius: BorderRadius.circular(15),
+        shadowColor: Colors.black54,
+        color: color,
+        elevation: 20,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            borderRadius: BorderRadiusDirectional.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                offset: Offset(3, -5),
-                spreadRadius: -5,
-                blurRadius: 5,
-              ),
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                offset: Offset(3, 5),
-                spreadRadius: -5,
-                blurRadius: 5,
-              ),
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                offset: Offset(0, 10),
-                spreadRadius: -5,
-                blurRadius: 15,
-              ),
-            ],
-            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.transparent,
+            // border: Border.all(color: color, width: 1),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  child: Row(
-                    children: [
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200], shape: BoxShape.circle),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            FontAwesomeIcons.download,
-                            size: 12,
-                            color: Colors.grey[800],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 15),
-                      Text(
-                        'Withdraw Balance',
-                        style: theme.caption,
-                      )
-                    ],
+                Transform.rotate(
+                  angle: type.toLowerCase().contains('out') ? pi : 0,
+                  child: Image.asset(
+                    'assets/pie-chart.png',
+                    height: 20,
                   ),
                 ),
-                Divider(
-                  height: 2,
+                Text(
+                  amount,
+                  maxLines: 2,
+                  style: TextStyle(
+                      fontSize: 16, color: Colors.white, letterSpacing: 1),
                 ),
-                InkWell(
-                  child: Row(
-                    children: [
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200], shape: BoxShape.circle),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            FontAwesomeIcons.piggyBank,
-                            size: 12,
-                            color: Colors.grey[800],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 15),
-                      Text(
-                        'Manage Bank Account',
-                        style: theme.caption,
-                      )
-                    ],
-                  ),
-                )
+                Text(
+                  type,
+                  style: TextStyle(fontSize: 11, color: Colors.white),
+                ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget revenue() {
+    return Padding(
+      padding: const EdgeInsets.all(30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Revenue',
+            style: TextStyle(
+                letterSpacing: 1,
+                fontSize: 13,
+                color: Colors.grey,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'GHC 27,003.98',
+            style: textTheme.headline5,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget periodBar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: TabBar(
+        labelStyle: textTheme.caption
+            .copyWith(letterSpacing: 0.5, fontWeight: FontWeight.w500),
+        controller: tabController,
+        labelColor: Color(0xf00080F6),
+        isScrollable: true,
+        unselectedLabelColor: Colors.black45,
+        indicatorSize: TabBarIndicatorSize.label,
+        onTap: (index) {},
+        tabs: [
+          for (final period in periods)
+            Tab(
+              text: period,
+            )
+        ],
+      ),
+    );
+  }
+}
+
+class PeriodBar extends StatefulWidget {
+  @override
+  _PeriodBarState createState() => _PeriodBarState();
+}
+
+class _PeriodBarState extends State<PeriodBar> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
     );
   }
 }

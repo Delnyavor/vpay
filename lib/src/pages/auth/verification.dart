@@ -12,7 +12,6 @@ class _FinalisationPageState extends State<FinalisationPage>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   bool _obfuscation = true;
-  bool _autoValidate = false;
   bool _isLoading = false;
   String _email, _password;
   FocusNode focusNode1, focusNode2;
@@ -84,7 +83,6 @@ class _FinalisationPageState extends State<FinalisationPage>
               ),
               child: Form(
                 key: _formKey,
-                autovalidate: _autoValidate,
                 child: form(),
               ),
             ),

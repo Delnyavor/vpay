@@ -86,15 +86,13 @@ class ProductWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(16),
-                // boxShadow: shadows(),
-              ),
-              child: image(),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(16),
+              // boxShadow: shadows(),
             ),
+            child: image(),
           ),
           descriptors(),
         ],
@@ -124,58 +122,58 @@ class ProductWidget extends StatelessWidget {
     );
   }
 
-  Widget descriptors() => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Ideal Milk (Regular)',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: textTheme.caption
-                .copyWith(fontWeight: FontWeight.w500, color: Colors.black87),
-          ),
-          SizedBox(
-            height: 4,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  'GHS${product.price}',
-                  style: textTheme.overline.copyWith(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 12,
-                    color: theme.accentColor,
+  Widget descriptors() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Ideal Milk (Regular)',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: textTheme.caption
+                  .copyWith(fontWeight: FontWeight.w500, color: Colors.black87),
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    'GHS${product.price}',
+                    style: textTheme.overline.copyWith(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 12,
+                      color: theme.accentColor,
+                    ),
                   ),
                 ),
-              ),
-              action(
-                Icons.shopping_basket,
-              )
-            ],
-          )
-        ],
+                action(
+                  Icons.shopping_basket,
+                )
+              ],
+            )
+          ],
+        ),
       );
 
   Widget action(IconData icon) => Builder(
-        builder: (BuildContext context) => Padding(
-          padding: const EdgeInsets.only(right: 2),
-          child: InkWell(
-            onTap: () {
-              viewProduct(context);
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Container(
-                height: 25,
-                width: 25,
-                color: theme.accentColor.withOpacity(0.15),
-                child: Icon(
-                  icon,
-                  color: theme.accentColor,
-                  size: 17,
-                ),
+        builder: (BuildContext context) => InkWell(
+          onTap: () {
+            viewProduct(context);
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Container(
+              height: 25,
+              width: 25,
+              color: theme.accentColor.withOpacity(0.15),
+              child: Icon(
+                icon,
+                color: theme.accentColor,
+                size: 17,
               ),
             ),
           ),
