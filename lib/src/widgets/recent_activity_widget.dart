@@ -61,7 +61,7 @@ class _LastActivitiesWidgetState extends State<LastActivitiesWidget> {
         backgroundColor: Color(0xf00080F6),
       ),
       title: Text(
-        '$who + $what',
+        '$who $what',
         maxLines: 2,
         style: textTheme.subtitle2
             .copyWith(fontWeight: FontWeight.bold, color: Colors.black87),

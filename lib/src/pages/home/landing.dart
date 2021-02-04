@@ -38,10 +38,10 @@ class _LandingPageState extends State<LandingPage>
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          BackLayer(),
           FrontLayer(
             animationController: animationController,
           ),
+          BackLayer(animationController),
           sliderDetector()
         ],
       ),
@@ -141,6 +141,10 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    return frontLayerContents();
+  }
+
+  Widget animatedBuilder({Widget child}) {
     return AnimatedBuilder(
       animation: radiusAnimation,
       builder: (context, builderChild) => SlideTransition(
@@ -174,13 +178,13 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
           ),
         ),
       ),
-      child: frontLayerContents(),
+      child: child,
     );
   }
 
   Scaffold frontLayerContents() {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black87),
         title: Center(
@@ -268,6 +272,8 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
 }
 
 class BackLayer extends StatefulWidget {
+  final AnimationController controller;
+  BackLayer(this.controller);
   @override
   _BackLayerState createState() => _BackLayerState();
 }
@@ -275,12 +281,68 @@ class BackLayer extends StatefulWidget {
 class _BackLayerState extends State<BackLayer> {
   TextStyle theme;
   ScrollController controller;
+  Animation slideAnimation;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     theme = Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white);
     controller = ScrollController();
+    slideAnimation = Tween<Offset>(
+      begin: Offset(-1, 0),
+      end: Offset(0, 0),
+    ).animate(widget.controller);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: slideAnimation,
+      builder: (BuildContext context, Widget child) {
+        return SlideTransition(
+          position: slideAnimation,
+          child: child,
+        );
+      },
+      child: childStack(),
+    );
+  }
+
+  Widget childStack() {
+    return Stack(
+      children: [
+        gesturePane(),
+        menuPane(),
+      ],
+    );
+  }
+
+  Widget menuPane() {
+    return Container(
+      margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 6),
+      decoration: BoxDecoration(color: Color(0xFF191919)),
+      child: CustomScrollView(
+        // reverse: true,
+        anchor: 0.2,
+        controller: controller,
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(25, 50, 25, 50),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(children()),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget gesturePane() {
+    return GestureDetector(
+      onTap: () {
+        widget.controller.reverse();
+      },
+    );
   }
 
   List<Widget> children() {
@@ -297,30 +359,31 @@ class _BackLayerState extends State<BackLayer> {
               MaterialPageRoute(builder: (context) => SalesReportPage()));
         },
       ),
+      SizedBox(height: 10),
       ListTile(
-        leading: Icon(
-          FontAwesomeIcons.creditCard,
-          size: 18,
-          color: Colors.white,
-        ),
-        title: Text('Enter Promo Code', style: theme),
-      ),
+          leading: Icon(
+            FontAwesomeIcons.creditCard,
+            size: 18,
+            color: Colors.white,
+          ),
+          title: Text('Enter Promo Code', style: theme)),
+      SizedBox(height: 10),
       ListTile(
-        leading: Icon(
-          Icons.settings,
-          size: 18,
-          color: Colors.white,
-        ),
-        title: Text('Settings', style: theme),
-      ),
+          leading: Icon(
+            Icons.settings,
+            size: 18,
+            color: Colors.white,
+          ),
+          title: Text('Settings', style: theme)),
+      SizedBox(height: 10),
       ListTile(
-        leading: Icon(
-          FontAwesomeIcons.outdent,
-          size: 18,
-          color: Colors.white,
-        ),
-        title: Text('Logout', style: theme),
-      ),
+          leading: Icon(
+            FontAwesomeIcons.outdent,
+            size: 18,
+            color: Colors.white,
+          ),
+          title: Text('Logout', style: theme)),
+      SizedBox(height: 10),
       ListTile(
         leading: Icon(
           FontAwesomeIcons.ccAmazonPay,
@@ -333,50 +396,30 @@ class _BackLayerState extends State<BackLayer> {
               MaterialPageRoute(builder: (context) => SalesReportPage()));
         },
       ),
+      SizedBox(height: 10),
       ListTile(
-        leading: Icon(
-          FontAwesomeIcons.creditCard,
-          size: 18,
-          color: Colors.white,
-        ),
-        title: Text('Enter Promo Code', style: theme),
-      ),
+          leading: Icon(
+            FontAwesomeIcons.creditCard,
+            size: 18,
+            color: Colors.white,
+          ),
+          title: Text('Enter Promo Code', style: theme)),
+      SizedBox(height: 10),
       ListTile(
-        leading: Icon(
-          Icons.settings,
-          size: 18,
-          color: Colors.white,
-        ),
-        title: Text('Settings', style: theme),
-      ),
+          leading: Icon(
+            Icons.settings,
+            size: 18,
+            color: Colors.white,
+          ),
+          title: Text('Settings', style: theme)),
+      SizedBox(height: 10),
       ListTile(
-        leading: Icon(
-          FontAwesomeIcons.outdent,
-          size: 18,
-          color: Colors.white,
-        ),
-        title: Text('Logout', style: theme),
-      ),
+          leading: Icon(
+            FontAwesomeIcons.outdent,
+            size: 18,
+            color: Colors.white,
+          ),
+          title: Text('Logout', style: theme)),
     ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(color: Colors.white12),
-      child: CustomScrollView(
-        reverse: true,
-        anchor: 0.1,
-        controller: controller,
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(25, 50, 25, 50),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(children()),
-            ),
-          )
-        ],
-      ),
-    );
   }
 }
