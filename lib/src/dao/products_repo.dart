@@ -4,7 +4,7 @@ import 'package:vpay/src/models/transaction.dart' as tran;
 import 'package:vpay/src/models/category.dart';
 
 class ProductsRepo {
-  final CollectionReference ref = Firestore.instance.collection('products');
+  final CollectionReference _ref = Firestore.instance.collection('products');
 
   final CollectionReference catRef =
       Firestore.instance.collection('categories');
@@ -17,11 +17,11 @@ class ProductsRepo {
   List<tran.Transaction> _transactions = [];
 
   Future<Query> getProductsAsQuery() async {
-    return ref.orderBy("name");
+    return _ref.orderBy("name");
   }
 
   Future<List<Product>> getProductsList() async {
-    await ref.orderBy("name").getDocuments().then(
+    await _ref.orderBy("name").getDocuments().then(
       (e) {
         products = e.documents.map((f) => Product.fromSnapshot(f)).toList();
       },
@@ -79,7 +79,7 @@ class ProductsRepo {
   }
 
   Future<void> addproduct(Product product) async {
-    ref.add(product.toJson()).whenComplete(() {}).whenComplete(() {
+    _ref.add(product.toJson()).whenComplete(() {}).whenComplete(() {
       print("Product added successfully!");
     }).then((e) {
       getProductByRef(product.reference);
@@ -103,7 +103,7 @@ class ProductsRepo {
   }
 
   Future<void> addCategory(Category category) async {
-    ref.add(category.toJson()).whenComplete(() {});
+    _ref.add(category.toJson()).whenComplete(() {});
   }
 
   Future<void> deleteCategory(Category category) async {
