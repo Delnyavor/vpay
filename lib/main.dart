@@ -110,7 +110,7 @@ class _LandingState extends State<Landing> {
             FirebaseAuth auth = FirebaseAuth.instance;
             auth.currentUser().then((user) {
               if (user != null)
-                Navigator.pushNamed(context, Routes.inventory);
+                Navigator.pushNamed(context, Routes.landing);
               else
                 Navigator.pushNamed(context, Routes.landing);
             });

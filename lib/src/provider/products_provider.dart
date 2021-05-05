@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart' as f;
 import 'package:vpay/src/models/category.dart';
-import 'package:vpay/src/provider/products_repo.dart';
+import 'package:vpay/src/dao/products_repo.dart';
 
 class ProductsProvider extends f.ChangeNotifier {
   ProductsRepo repo = ProductsRepo();
