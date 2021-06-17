@@ -35,6 +35,8 @@ class MyApp extends StatelessWidget {
           accentColor: Color(0xff0080F6),
           fontFamily: GoogleFonts.lato().fontFamily,
           textTheme: GoogleFonts.latoTextTheme().copyWith(
+            // fontFamily: 'Gilroy',
+            // textTheme: TextTheme(
             bodyText2: TextStyle(
               letterSpacing: 0,
             ),

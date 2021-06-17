@@ -44,10 +44,10 @@ class _LandingPageState extends State<LandingPage>
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
+          BackLayer(animationController),
           FrontLayer(
             animationController: animationController,
           ),
-          BackLayer(animationController),
           sliderDetector()
         ],
       ),
@@ -147,7 +147,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return frontLayerContents();
+    return animatedBuilder(child: frontLayerContents());
   }
 
   Widget animatedBuilder({Widget child}) {
@@ -174,12 +174,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
                       blurRadius: 15),
                 ],
               ),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: radiusAnimation.value,
-                ),
-                child: builderChild,
-              ),
+              child: builderChild,
             ),
           ),
         ),
@@ -190,7 +185,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
 
   Scaffold frontLayerContents() {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black87),
         title: Center(
@@ -292,7 +287,10 @@ class _BackLayerState extends State<BackLayer> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    theme = Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white);
+    theme = Theme.of(context)
+        .textTheme
+        .subtitle1
+        .copyWith(color: Colors.white, fontSize: 12);
     controller = ScrollController();
     slideAnimation = Tween<Offset>(
       begin: Offset(-1, 0),
@@ -302,16 +300,7 @@ class _BackLayerState extends State<BackLayer> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: slideAnimation,
-      builder: (BuildContext context, Widget child) {
-        return SlideTransition(
-          position: slideAnimation,
-          child: child,
-        );
-      },
-      child: childStack(),
-    );
+    return menuPane();
   }
 
   Widget childStack() {
@@ -325,7 +314,6 @@ class _BackLayerState extends State<BackLayer> {
 
   Widget menuPane() {
     return Container(
-      margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 6),
       decoration: BoxDecoration(color: Color(0xFF191919)),
       child: CustomScrollView(
         // reverse: true,
@@ -365,7 +353,7 @@ class _BackLayerState extends State<BackLayer> {
               MaterialPageRoute(builder: (context) => SalesReportPage()));
         },
       ),
-      SizedBox(height: 10),
+      // SizedBox(height: 5),
       ListTile(
           leading: Icon(
             FontAwesomeIcons.creditCard,
@@ -373,7 +361,7 @@ class _BackLayerState extends State<BackLayer> {
             color: Colors.white,
           ),
           title: Text('Enter Promo Code', style: theme)),
-      SizedBox(height: 10),
+      // SizedBox(height: 5),
       ListTile(
           leading: Icon(
             Icons.settings,
@@ -381,7 +369,7 @@ class _BackLayerState extends State<BackLayer> {
             color: Colors.white,
           ),
           title: Text('Settings', style: theme)),
-      SizedBox(height: 10),
+      // SizedBox(height: 5),
       ListTile(
           leading: Icon(
             FontAwesomeIcons.outdent,
@@ -389,7 +377,7 @@ class _BackLayerState extends State<BackLayer> {
             color: Colors.white,
           ),
           title: Text('Logout', style: theme)),
-      SizedBox(height: 10),
+      // SizedBox(height: 5),
       ListTile(
         leading: Icon(
           FontAwesomeIcons.ccAmazonPay,
@@ -402,7 +390,7 @@ class _BackLayerState extends State<BackLayer> {
               MaterialPageRoute(builder: (context) => SalesReportPage()));
         },
       ),
-      SizedBox(height: 10),
+      // SizedBox(height: 5),
       ListTile(
           leading: Icon(
             FontAwesomeIcons.creditCard,
@@ -410,7 +398,7 @@ class _BackLayerState extends State<BackLayer> {
             color: Colors.white,
           ),
           title: Text('Enter Promo Code', style: theme)),
-      SizedBox(height: 10),
+      // SizedBox(height: 5),
       ListTile(
           leading: Icon(
             Icons.settings,
@@ -418,7 +406,7 @@ class _BackLayerState extends State<BackLayer> {
             color: Colors.white,
           ),
           title: Text('Settings', style: theme)),
-      SizedBox(height: 10),
+      // SizedBox(height: 5),
       ListTile(
           leading: Icon(
             FontAwesomeIcons.outdent,
