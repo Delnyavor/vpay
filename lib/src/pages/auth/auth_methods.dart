@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-Future<AuthResult> firebaseSignIn(BuildContext context,
+Future<UserCredential> firebaseSignIn(BuildContext context,
     {String email, String password, void errorFunc()}) async {
   FirebaseAuth auth = FirebaseAuth.instance;
-  AuthResult authResult;
+  UserCredential userCredential;
   try {
-    authResult =
+    userCredential =
         await auth.signInWithEmailAndPassword(email: email, password: password);
   } on PlatformException catch (error) {
     showSnackBar(context: context, text: error.message);
@@ -16,7 +16,7 @@ Future<AuthResult> firebaseSignIn(BuildContext context,
     print(error);
   }
 
-  return authResult;
+  return userCredential;
 }
 
 Future<void> signIn(BuildContext context,
@@ -31,12 +31,12 @@ Future<void> signIn(BuildContext context,
   });
 }
 
-Future<AuthResult> firebaseSignUp(BuildContext context,
+Future<UserCredential> firebaseSignUp(BuildContext context,
     {String email, String password, void errorFunc()}) async {
   FirebaseAuth auth = FirebaseAuth.instance;
-  AuthResult authResult;
+  UserCredential userCredential;
   try {
-    authResult = await auth.createUserWithEmailAndPassword(
+    userCredential = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
   } on PlatformException catch (error) {
     showSnackBar(context: context, text: error.message);
@@ -45,7 +45,7 @@ Future<AuthResult> firebaseSignUp(BuildContext context,
     print(error);
   }
 
-  return authResult;
+  return userCredential;
 }
 
 Future<void> signUp(BuildContext context,
@@ -60,7 +60,7 @@ Future<void> signUp(BuildContext context,
 }
 
 void showSnackBar({BuildContext context, String text}) {
-  Scaffold.of(context).showSnackBar(SnackBar(
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(text,
         style: Theme.of(context)
             .textTheme
@@ -83,9 +83,9 @@ SnackBar snackBar({Widget content}) {
 Future<void> checkUser(BuildContext context) async {
   FirebaseAuth auth = FirebaseAuth.instance;
   // auth.signOut();
-  await auth.currentUser().then((user) {
-    if (user != null) {
-      Navigator.pushReplacementNamed(context, 'signup');
-    }
-  });
+  User user = auth.currentUser;
+
+  if (user != null) {
+    Navigator.pushReplacementNamed(context, 'signup');
+  }
 }

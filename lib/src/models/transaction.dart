@@ -22,14 +22,14 @@ class Transaction {
   Transaction.fromMap(Map<String, dynamic> map,
       {this.reference, this.timestamp})
       : id = map['id'],
-      number = map['number'],
+        number = map['number'],
         transactionId = map['transactionId'],
         isRefunded = map['isRefunded'],
         cost = map['cost'],
         paymentMode = map['paymentMode'];
 
   Transaction.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   toJson() {
     return {
@@ -60,7 +60,7 @@ class TransactionDetails {
         quantity = map["quantity"];
 
   TransactionDetails.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, ref: snapshot.reference);
+      : this.fromMap(snapshot.data(), ref: snapshot.reference);
 
   toJson() {
     return {

@@ -12,7 +12,7 @@ class Category {
       : name = map['name'];
 
   Category.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, id: snapshot.documentID);
+      : this.fromMap(snapshot.data(), id: snapshot.id);
 
   toJson() {
     return {"name": name};
@@ -51,8 +51,8 @@ class Product {
   // variations = List.from(map['variations'])
 
   Product.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data,
-            id: snapshot.documentID, reference: snapshot.reference);
+      : this.fromMap(snapshot.data(),
+            id: snapshot.id, reference: snapshot.reference);
 
   toJson() {
     return {

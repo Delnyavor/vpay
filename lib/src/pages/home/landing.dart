@@ -22,6 +22,12 @@ class _LandingPageState extends State<LandingPage>
   @override
   void initState() {
     super.initState();
+    String text = 'one';
+    Map map = Map<String, dynamic>();
+    map = {'$text': 'null'};
+    print(map['$text']);
+    map.addEntries([MapEntry('${text}1', 'nothing')]);
+    print(map);
     animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 350));
   }

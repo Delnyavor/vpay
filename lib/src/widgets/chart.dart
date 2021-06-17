@@ -15,10 +15,10 @@ class _ChartState extends State<Chart> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+      margin: const EdgeInsets.fromLTRB(25, 0, 25, 50),
       // color: Colors.grey,
       child: AspectRatio(
-        aspectRatio: 1.4,
+        aspectRatio: 1.5,
         child: Stack(
           fit: StackFit.expand,
           children: [

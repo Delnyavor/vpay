@@ -104,16 +104,16 @@ class _LandingState extends State<Landing> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: FlatButton(
+        child: TextButton(
           child: Text('Hello'),
           onPressed: () {
             FirebaseAuth auth = FirebaseAuth.instance;
-            auth.currentUser().then((user) {
-              if (user != null)
-                Navigator.pushNamed(context, Routes.inventory);
-              else
-                Navigator.pushNamed(context, Routes.landing);
-            });
+            User user = auth.currentUser;
+
+            if (user != null)
+              Navigator.pushNamed(context, Routes.inventory);
+            else
+              Navigator.pushNamed(context, Routes.landing);
           },
         ),
       ),

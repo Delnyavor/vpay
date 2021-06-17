@@ -4,13 +4,14 @@ import 'package:vpay/src/models/transaction.dart' as tran;
 import 'package:vpay/src/models/category.dart';
 
 class ProductsRepo {
-  final CollectionReference _ref = Firestore.instance.collection('products');
+  final CollectionReference _ref =
+      FirebaseFirestore.instance.collection('products');
 
   final CollectionReference catRef =
-      Firestore.instance.collection('categories');
+      FirebaseFirestore.instance.collection('categories');
 
   final CollectionReference transRef =
-      Firestore.instance.collection('transactions');
+      FirebaseFirestore.instance.collection('transactions');
 
   List<Product> products = [];
   List<Category> categories = [];
@@ -21,9 +22,9 @@ class ProductsRepo {
   }
 
   Future<List<Product>> getProductsList() async {
-    await _ref.orderBy("name").getDocuments().then(
+    await _ref.orderBy("name").get().then(
       (e) {
-        products = e.documents.map((f) => Product.fromSnapshot(f)).toList();
+        products = e.docs.map((f) => Product.fromSnapshot(f)).toList();
       },
     ).whenComplete(() {
       print("number of products: ${products.length}");
@@ -32,9 +33,9 @@ class ProductsRepo {
   }
 
   Future<List<Category>> getCategories() async {
-    await catRef.orderBy("id").getDocuments().then(
+    await catRef.orderBy("id").get().then(
       (e) {
-        categories = e.documents.map((f) => Category.fromSnapshot(f)).toList();
+        categories = e.docs.map((f) => Category.fromSnapshot(f)).toList();
       },
     ).whenComplete(() {
       print("number of categories: ${categories.length}");
@@ -44,10 +45,10 @@ class ProductsRepo {
   }
 
   Future<void> getTransactions() async {
-    await transRef.orderBy("timestamp", descending: true).getDocuments().then(
+    await transRef.orderBy("timestamp", descending: true).get().then(
       (e) {
         _transactions =
-            e.documents.map((f) => tran.Transaction.fromSnapshot(f)).toList();
+            e.docs.map((f) => tran.Transaction.fromSnapshot(f)).toList();
       },
     ).whenComplete(() {
       print("number of transactions: ${_transactions.length}");
@@ -91,14 +92,14 @@ class ProductsRepo {
   }
 
   Future<void> modifyproduct(Product product) async {
-    product.reference.updateData(product.toJson()).whenComplete(() {
+    product.reference.update(product.toJson()).whenComplete(() {
       // getData();
     });
   }
 
   Future<void> modifyProducts(List<Product> products) async {
     products.forEach((f) {
-      f.reference.updateData(f.toJson());
+      f.reference.update(f.toJson());
     });
   }
 
@@ -111,9 +112,7 @@ class ProductsRepo {
   }
 
   Future<void> modifyCategory(Category newCategory, String oldCategory) async {
-    await newCategory.reference
-        .updateData(newCategory.toJson())
-        .whenComplete(() {
+    await newCategory.reference.update(newCategory.toJson()).whenComplete(() {
       products.forEach((product) {
         if (product.category == oldCategory)
           product.category = newCategory.name;

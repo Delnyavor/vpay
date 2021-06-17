@@ -155,7 +155,7 @@ class _InventoryPageState extends State<InventoryPage>
 
   Widget tabViewContent(Category category) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance
+      stream: FirebaseFirestore.instance
           .collection('products')
           .where('category', isEqualTo: category.name)
           .snapshots(),
@@ -169,9 +169,8 @@ class _InventoryPageState extends State<InventoryPage>
               ),
             );
           default:
-            List<Product> products = snapshot.data.documents
-                .map((e) => Product.fromSnapshot(e))
-                .toList();
+            List<Product> products =
+                snapshot.data.docs.map((e) => Product.fromSnapshot(e)).toList();
             return categoryWidget(products);
         }
       },

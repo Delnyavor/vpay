@@ -13,7 +13,7 @@ class UserData {
         uid = map['uid'];
 
   UserData.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   toJson() {
     return {"uid": uid, "uuid": uuid, "key": key};
