@@ -194,6 +194,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
         splashColor: Colors.transparent,
       ),
       child: TabBar(
+        physics: NeverScrollableScrollPhysics(),
         labelStyle: theme.textTheme.caption.copyWith(
             letterSpacing: 0.4, fontWeight: FontWeight.w500, fontSize: 10),
         controller: tabController,
@@ -264,7 +265,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
   }
 
   Widget tab(String label) {
-    Color blue = Colors.blue;
+    Color blue = Colors.indigo[400];
     Color white = Colors.white;
 
     return Tab(
