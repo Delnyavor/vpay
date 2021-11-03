@@ -143,17 +143,17 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
       slivers: <Widget>[
         sliverAppBar(),
         SliverPadding(
-          padding: const EdgeInsets.only(bottom: 5, top: 10),
+          padding: const EdgeInsets.only(bottom: 25, top: 10),
           sliver: SliverHeader(
             floating: true,
             child: SearchWidget(),
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.only(top: 30, bottom: 10),
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
           sliver: SliverHeader(
-            minHeight: 40,
-            maxHeight: 40,
+            minHeight: 70,
+            maxHeight: 70,
             child: tabBar(),
           ),
         ),
@@ -188,25 +188,35 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
   }
 
   Widget tabBar() {
-    return TabBar(
-      labelStyle: theme.textTheme.caption
-          .copyWith(letterSpacing: 0.5, fontWeight: FontWeight.w500),
-      controller: tabController,
-      labelColor: theme.accentColor,
-      isScrollable: true,
-      unselectedLabelColor: Colors.black45,
-      indicatorSize: TabBarIndicatorSize.label,
-      onTap: (index) {
-        setState(() {
-          selectedCategory = categories[index];
-        });
-      },
-      tabs: [
-        for (final category in categories)
-          Tab(
-            text: category.name,
-          )
-      ],
+    return Theme(
+      data: theme.copyWith(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+      ),
+      child: TabBar(
+        labelStyle: theme.textTheme.caption.copyWith(
+            letterSpacing: 0.4, fontWeight: FontWeight.w500, fontSize: 10),
+        controller: tabController,
+        labelColor: Colors.black87,
+        isScrollable: true,
+        unselectedLabelColor: Colors.black38,
+        unselectedLabelStyle: theme.textTheme.caption.copyWith(
+            letterSpacing: 0.4, fontWeight: FontWeight.w400, fontSize: 10),
+        indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
+        // indicatorSize: TabBarIndicatorSize.tab,
+        // labelPadding: const EdgeInsets.only(left: 20, right: 5),
+        onTap: (index) {
+          setState(() {
+            selectedCategory = categories[index];
+          });
+        },
+        tabs: [
+          for (final category in categories)
+            tab(
+              category.name,
+            )
+        ],
+      ),
     );
   }
 
@@ -249,6 +259,35 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
           size: 18,
         ),
         //  Icons.notifications_outlined),
+      ),
+    );
+  }
+
+  Widget tab(String label) {
+    Color blue = Colors.blue;
+    Color white = Colors.white;
+
+    return Tab(
+      text: label,
+      icon: DecoratedBox(
+        decoration: BoxDecoration(
+            color: label == selectedCategory.name ? blue : white,
+            shape: BoxShape.circle,
+            border: Border.fromBorderSide(
+              BorderSide(
+                width: 0.5,
+                color: Colors.blueGrey.withOpacity(0.5),
+              ),
+            )
+            // boxShadow: [BoxShadow(color: Colors.blueGrey.withOpacity(0.5))],
+            ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.card_giftcard_rounded,
+            color: label != selectedCategory.name ? blue : white,
+          ),
+        ),
       ),
     );
   }

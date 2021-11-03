@@ -62,7 +62,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
           crossAxisSpacing: 5,
-          mainAxisSpacing: 10,
+          mainAxisSpacing: 5,
           childAspectRatio: 0.74,
         ),
         delegate: SliverChildBuilderDelegate(
@@ -94,6 +94,7 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(10),
       onTap: () {
         print('tapped');
       },
@@ -101,7 +102,7 @@ class ProductWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             image(),
             descriptors(),
@@ -115,7 +116,7 @@ class ProductWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: AspectRatio(
-        aspectRatio: 1 / 1.1,
+        aspectRatio: 1 / 1,
         child: DecoratedBox(
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -131,22 +132,22 @@ class ProductWidget extends StatelessWidget {
   }
 
   Widget descriptors() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        padding: const EdgeInsets.fromLTRB(4, 10, 4, 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Marlin Waterloom',
-              maxLines: 1,
+              'Marlin Waterloom in a place',
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Colors.black.withOpacity(0.78),
                 fontSize: 12,
-                letterSpacing: 0.7,
+                letterSpacing: 0.6,
               ),
             ),
-            SizedBox(height: 6),
+            SizedBox(height: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -154,9 +155,9 @@ class ProductWidget extends StatelessWidget {
                   child: Text(
                     'GHS${product.price}',
                     style: textTheme.overline.copyWith(
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w500,
                       fontSize: 10,
-                      color: Colors.black54,
+                      color: Colors.black45,
                     ),
                   ),
                 ),
