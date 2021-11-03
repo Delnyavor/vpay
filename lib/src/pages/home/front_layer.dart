@@ -193,30 +193,32 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
       ),
-      child: TabBar(
-        physics: NeverScrollableScrollPhysics(),
-        labelStyle: theme.textTheme.caption.copyWith(
-            letterSpacing: 0.4, fontWeight: FontWeight.w500, fontSize: 10),
-        controller: tabController,
-        labelColor: Colors.black87,
-        isScrollable: true,
-        unselectedLabelColor: Colors.black38,
-        unselectedLabelStyle: theme.textTheme.caption.copyWith(
-            letterSpacing: 0.4, fontWeight: FontWeight.w400, fontSize: 10),
-        indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
-        // indicatorSize: TabBarIndicatorSize.tab,
-        // labelPadding: const EdgeInsets.only(left: 20, right: 5),
-        onTap: (index) {
-          setState(() {
-            selectedCategory = categories[index];
-          });
-        },
-        tabs: [
-          for (final category in categories)
-            tab(
-              category.name,
-            )
-        ],
+      child: ScrollConfiguration(
+        behavior: ScrollBehavior(),
+        child: TabBar(
+          labelStyle: theme.textTheme.caption.copyWith(
+              letterSpacing: 0.4, fontWeight: FontWeight.w500, fontSize: 10),
+          controller: tabController,
+          labelColor: Colors.black87,
+          isScrollable: true,
+          unselectedLabelColor: Colors.black38,
+          unselectedLabelStyle: theme.textTheme.caption.copyWith(
+              letterSpacing: 0.4, fontWeight: FontWeight.w400, fontSize: 10),
+          indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
+          // indicatorSize: TabBarIndicatorSize.tab,
+          // labelPadding: const EdgeInsets.only(left: 20, right: 5),
+          onTap: (index) {
+            setState(() {
+              selectedCategory = categories[index];
+            });
+          },
+          tabs: [
+            for (final category in categories)
+              tab(
+                category.name,
+              )
+          ],
+        ),
       ),
     );
   }
