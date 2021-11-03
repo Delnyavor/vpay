@@ -34,38 +34,51 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('building categories');
+    List<Product> products =
+        this.provider.getProductsByCategory(widget.category.name);
+    return products.isEmpty ? buildNoProducts() : buildContents(products);
+  }
 
+  Widget buildNoProducts() {
+    return SliverGrid(
+      delegate: SliverChildListDelegate([
+        Center(
+          child: Text('Nothing here yet'),
+        ),
+      ]),
+      gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
+    );
+  }
+
+  Widget buildContents(List<Product> products) {
     final ThemeData theme = Theme.of(context);
 
     Orientation orientation = MediaQuery.of(context).orientation;
 
-    List<Product> products =
-        this.provider.getProductsByCategory(widget.category.name);
-    return products.isEmpty
-        ? Center(
-            child: Text('Nothing here yet'),
-          )
-        : GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 14,
-                childAspectRatio: 1 / 1.4),
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
-            addAutomaticKeepAlives: true,
-            scrollDirection: Axis.vertical,
-            itemCount: products.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ProductWidget(
-                focusNode: new FocusNode(),
-                product: products[index],
-                index: index,
-                textTheme: textTheme,
-                theme: theme,
-              );
-            },
-          );
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+      sliver: SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.74,
+        ),
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            return ProductWidget(
+              focusNode: new FocusNode(),
+              product: products[index],
+              index: index,
+              textTheme: textTheme,
+              theme: theme,
+            );
+          },
+          childCount: products.length,
+        ),
+      ),
+    );
   }
 }
 
@@ -80,41 +93,36 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(16),
-              // boxShadow: shadows(),
-            ),
-            child: image(),
-          ),
-          descriptors(),
-        ],
+    return InkWell(
+      onTap: () {
+        print('tapped');
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            image(),
+            descriptors(),
+          ],
+        ),
       ),
     );
   }
 
   Widget image() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(20),
       child: AspectRatio(
         aspectRatio: 1 / 1.1,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/${(index % 4) + 2}.png',
-                ),
-                fit: BoxFit.cover,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                'assets/${(index % 3) + 1}.png',
               ),
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -123,20 +131,22 @@ class ProductWidget extends StatelessWidget {
   }
 
   Widget descriptors() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Ideal Milk (Regular)',
+              'Marlin Waterloom',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: textTheme.caption
-                  .copyWith(fontWeight: FontWeight.w500, color: Colors.black87),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black.withOpacity(0.78),
+                fontSize: 12,
+                letterSpacing: 0.7,
+              ),
             ),
-            SizedBox(
-              height: 4,
-            ),
+            SizedBox(height: 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -144,15 +154,12 @@ class ProductWidget extends StatelessWidget {
                   child: Text(
                     'GHS${product.price}',
                     style: textTheme.overline.copyWith(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 12,
-                      color: theme.accentColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 10,
+                      color: Colors.black54,
                     ),
                   ),
                 ),
-                action(
-                  Icons.shopping_basket,
-                )
               ],
             )
           ],

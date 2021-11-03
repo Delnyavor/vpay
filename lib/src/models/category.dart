@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vpay/src/models/prod_variations.dart';
 
 class Category {
   final String name;
@@ -71,9 +70,8 @@ class CartModel {
   final Product product;
   double quantity;
   double _cost;
-  final Variation selectedVariations;
 
-  CartModel({this.product, this.quantity, this.selectedVariations})
+  CartModel({this.product, this.quantity})
       //TODO product price is required
       //also, this works
       : _cost = quantity * (product.price ?? 0);

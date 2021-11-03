@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vpay/src/provider/products_provider.dart';
 
@@ -9,6 +10,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   ThemeData theme;
+  TextEditingController controller;
   AnimationController animationController;
   Animation<Offset> offsetAnimation;
   Animation<BorderRadius> radiusAnimation;
@@ -25,7 +27,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     dimensions = MediaQuery.of(context).size;
     provider = Provider.of<ProductsProvider>(context);
     sizeAnimation = Tween<Size>(
-            begin: Size(20, 20), end: Size(dimensions.width, dimensions.height))
+            begin: Size(0, 0), end: Size(dimensions.width, dimensions.height))
         .animate(
             CurvedAnimation(curve: Curves.linear, parent: animationController));
 
@@ -36,11 +38,11 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+    animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
 
     radiusAnimation = Tween<BorderRadius>(
-            begin: BorderRadius.circular(20), end: BorderRadius.circular(0))
+            begin: BorderRadius.circular(50), end: BorderRadius.circular(0))
         .animate(
             CurvedAnimation(parent: animationController, curve: Curves.linear));
 
@@ -50,29 +52,77 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: sizeAnimation,
-      builder: (BuildContext context, Widget child) {
-        return SizedBox(
-          height: sizeAnimation.value.height,
-          width: sizeAnimation.value.width,
-          child: AnimatedBuilder(
-              animation: radiusAnimation,
-              builder: (BuildContext context, Widget child) {
-                return ClipRRect(
+    return Scaffold(
+      body: AnimatedBuilder(
+        animation: sizeAnimation,
+        builder: (BuildContext context, Widget child) {
+          return SizedBox(
+            height: sizeAnimation.value.height,
+            width: sizeAnimation.value.width,
+            child: ClipRRect(
+              borderRadius: radiusAnimation.value,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.green,
                   borderRadius: radiusAnimation.value,
-                  child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Scaffold(
-                        backgroundColor: Colors.red,
-                      )),
-                );
-              }),
-        );
-      },
+                ),
+                child: input(context),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget input(context) {
+    return Container(
+      height: 60,
+      color: Colors.grey,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 16,
+          top: 13,
+        ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(),
+          child: inputField(context),
+        ),
+      ),
+    );
+  }
+
+  Widget inputField(BuildContext context) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Hero(
+        tag: 'search',
+        child: Material(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 16,
+              top: 13,
+            ),
+            child: Row(
+              children: [
+                Icon(FontAwesomeIcons.search, size: 12),
+                Flexible(
+                  child: TextField(controller: controller),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
