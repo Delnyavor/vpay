@@ -41,7 +41,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
 
     provider = Provider.of<ProductsProvider>(context);
     categories = provider.categories;
-    if (categories.isNotEmpty) selectedCategory = categories[0];
+    initialiseTabController();
 
     tabController = TabController(vsync: this, length: categories.length);
     radiusAnimation = Tween<BorderRadius>(
@@ -88,6 +88,16 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
     controller.dispose();
     tabController.dispose();
     super.dispose();
+  }
+
+  void initialiseTabController() {
+    if (selectedCategory.name.trim().isEmpty)
+      print('empty');
+    else
+      print(selectedCategory.name);
+
+    if (categories.isNotEmpty) if (selectedCategory.name == null)
+      selectedCategory = categories[0];
   }
 
   @override

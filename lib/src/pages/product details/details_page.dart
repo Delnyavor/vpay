@@ -31,8 +31,10 @@ class DetailsPageState extends State<DetailsPage> {
   }
 
   Widget mainImage() {
-    return AspectRatio(
-      aspectRatio: 1.2,
+    return Container(
+      height: 300,
+      width: double.infinity,
+      color: Colors.grey[100],
     );
   }
 
@@ -55,10 +57,10 @@ class DetailsPageState extends State<DetailsPage> {
 
   Widget addToCart() {
     return Center(
-      child: FlatButton(
+      child: TextButton(
         child: Text('Add To Cart'),
-        color: Theme.of(context).accentColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        // color: Theme.of(context).accentColor,
+        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onPressed: null,
       ),
     );

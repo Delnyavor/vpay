@@ -17,7 +17,8 @@ class CategoryWidget extends StatefulWidget {
   _CategoryWidgetState createState() => _CategoryWidgetState();
 }
 
-class _CategoryWidgetState extends State<CategoryWidget> {
+class _CategoryWidgetState extends State<CategoryWidget>
+    with AutomaticKeepAliveClientMixin {
   ProductsProvider provider;
   TextTheme textTheme;
   ThemeData theme;
@@ -33,7 +34,11 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     List<Product> products =
         this.provider.getProductsByCategory(widget.category.name);
     return products.isEmpty ? buildNoProducts() : buildContents(products);
@@ -96,7 +101,7 @@ class ProductWidget extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () {
-        print('tapped');
+        viewProduct(context);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -142,7 +147,7 @@ class ProductWidget extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.black.withOpacity(0.78),
+                color: Colors.black.withOpacity(0.7),
                 fontSize: 12,
                 letterSpacing: 0.6,
               ),
