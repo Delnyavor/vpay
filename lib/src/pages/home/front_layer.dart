@@ -96,7 +96,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
     else
       print(selectedCategory.name);
 
-    if (categories.isNotEmpty) if (selectedCategory.name == null)
+    if (categories.isNotEmpty) if (selectedCategory.name.isEmpty)
       selectedCategory = categories[0];
   }
 
