@@ -35,27 +35,12 @@ class MyApp extends StatelessWidget {
         // ChangeNotifierProvider(create: (context) => CartProvider())
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Vpay',
         theme: ThemeData(
           primaryColor: Color(0xff2dc8ac),
           accentColor: Color(0xff0080F6),
-          fontFamily: GoogleFonts.lato().fontFamily,
-          textTheme: GoogleFonts.latoTextTheme().copyWith(
-            // fontFamily: 'Gilroy',
-            // textTheme: TextTheme(
-            bodyText2: TextStyle(
-              letterSpacing: 0,
-            ),
-            button: TextStyle(letterSpacing: 0, fontSize: 13),
-            headline4: TextStyle(
-                letterSpacing: 0,
-                color: Colors.lightBlue,
-                fontWeight: FontWeight.w500),
-            headline3: TextStyle(
-                letterSpacing: 0,
-                color: Colors.lightBlue,
-                fontWeight: FontWeight.w500),
-          ),
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          textTheme: GoogleFonts.poppinsTextTheme().copyWith(),
         ),
         initialRoute: '/',
         routes: {

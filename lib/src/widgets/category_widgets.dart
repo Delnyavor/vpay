@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:vpay/src/pages/product%20details/details_page.dart';
 
 import 'package:vpay/src/provider/products_provider.dart';
+import 'package:vpay/src/utils/route_transitions.dart';
 
 import 'modal.dart';
 
@@ -68,7 +69,7 @@ class _CategoryWidgetState extends State<CategoryWidget>
           crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
           crossAxisSpacing: 5,
           mainAxisSpacing: 5,
-          childAspectRatio: 0.74,
+          childAspectRatio: 0.7,
         ),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
@@ -195,11 +196,13 @@ class ProductWidget extends StatelessWidget {
 
   void viewProduct(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => DetailsPage(
-                  product: product,
-                )));
+      context,
+      fadeInRoute(
+        DetailsPage(
+          product: product,
+        ),
+      ),
+    );
   }
 
   void moveToEdit(BuildContext context) {
