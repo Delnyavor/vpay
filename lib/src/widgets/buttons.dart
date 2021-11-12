@@ -92,10 +92,10 @@ TextButton textButton(
           MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.hovered))
-                return Colors.blue.withOpacity(0.904);
+                return Colors.indigoAccent[700];
               if (states.contains(MaterialState.focused) ||
                   states.contains(MaterialState.pressed))
-                return Colors.blue.withOpacity(0.912);
+                return Colors.indigoAccent[700];
               return null; // Defer to the widget's default.
             },
           ),
