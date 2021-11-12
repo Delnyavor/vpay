@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vpay/src/models/category.dart';
 import 'package:vpay/src/utils/screen_adaptor.dart';
-import 'package:vpay/src/widgets/add_to_cart.dart';
+import 'package:vpay/src/components/add_to_cart.dart';
 
 class MyModal extends StatefulWidget {
   final Product product;
@@ -93,7 +93,9 @@ class _MyModalState extends State<MyModal> with TickerProviderStateMixin {
                 backgroundColor: Colors.transparent,
                 isScrollControlled: true,
                 builder: (BuildContext context) {
-                  return AddToCart(product: widget.product,);
+                  return AddToCart(
+                    product: widget.product,
+                  );
                 },
               );
             },

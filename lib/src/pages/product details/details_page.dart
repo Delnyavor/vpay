@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vpay/src/models/category.dart';
 import 'package:vpay/src/pages/chat/chat_page.dart';
 import 'package:vpay/src/utils/route_transitions.dart';
-import 'package:vpay/src/widgets/buttons.dart';
-import 'package:vpay/src/widgets/slideshow.dart';
+import 'package:vpay/src/components/buttons.dart';
+import 'package:vpay/src/components/slideshow.dart';
 
 class DetailsPage extends StatefulWidget {
   final Product product;

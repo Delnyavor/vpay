@@ -5,9 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vpay/src/models/category.dart';
 import 'package:vpay/src/provider/products_provider.dart';
-import 'package:vpay/src/widgets/category_widgets.dart';
-import 'package:vpay/src/widgets/search_widget.dart';
-import 'package:vpay/src/widgets/slivers.dart';
+import 'package:vpay/src/components/category_widgets.dart';
+import 'package:vpay/src/components/search_widget.dart';
+import 'package:vpay/src/components/slivers.dart';
 
 class FrontLayer extends StatefulWidget {
   final AnimationController animationController;

@@ -3,10 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:vpay/src/pages/home/inventory.dart';
 import 'package:vpay/src/pages/home/landing.dart';
 import 'package:vpay/src/provider/products_provider.dart';
-import 'package:vpay/src/widgets/modal.dart';
+import 'package:vpay/src/components/modal.dart';
 import 'src/pages/auth/userdetails.dart';
 import 'src/pages/auth/signup.dart';
 
@@ -49,7 +48,6 @@ class MyApp extends StatelessWidget {
           Routes.signup: (context) => SignUpPage(),
           Routes.userdetails: (context) => UserDetails(),
           Routes.finalisation: (context) => FinalisationPage(),
-          Routes.inventory: (context) => InventoryPage(),
           Routes.landing: (context) => LandingPage(),
           Routes.modal: (context) => MyModal(),
           Routes.product: (context) => DetailsPage()

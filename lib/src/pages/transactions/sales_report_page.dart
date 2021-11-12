@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:vpay/src/widgets/chart.dart';
-import 'package:vpay/src/widgets/recent_activity_widget.dart';
+import 'package:vpay/src/components/chart.dart';
+import 'package:vpay/src/components/recent_activity_widget.dart';
 
 class SalesReportPage extends StatefulWidget {
   @override
