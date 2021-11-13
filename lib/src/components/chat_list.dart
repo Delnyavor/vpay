@@ -1,37 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vpay/src/models/message.dart';
 
-class ChatList extends StatefulWidget {
-  final List<Message> messages;
-  ChatList({this.messages});
-
-  @override
-  _ChatListState createState() => _ChatListState();
-}
-
-class _ChatListState extends State<ChatList> {
-  Message getNextIndex(Message m) {
-    int i = widget.messages.indexOf(m);
-    if (i < widget.messages.length - 1) {
-      return widget.messages[i + 1];
-    }
-    return null;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: widget.messages
-          .map((e) => ChatMessageWidget(e, getNextIndex(e)))
-          .toList(),
-    );
-  }
-}
-
 class ChatMessageWidget extends StatefulWidget {
   final Message message;
   final Message nextMessage;
-  const ChatMessageWidget(this.message, this.nextMessage);
+  final int index;
+  ChatMessageWidget(this.message, this.nextMessage, this.index)
+      : super(key: Key(index.toString()));
 
   @override
   _ChatMessageWidgetState createState() => _ChatMessageWidgetState();
@@ -98,12 +73,13 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: const EdgeInsets.only(right: 18, left: 16),
+        padding: const EdgeInsets.only(
+          right: 18,
+          left: 16,
+        ),
         child: Text(
           time,
-          style: TextStyle(
-            fontSize: 9,
-          ),
+          style: TextStyle(fontSize: 8),
         ),
       ),
     );
