@@ -14,7 +14,12 @@ class SlideShow extends StatefulWidget {
 class _SlideShowState extends State<SlideShow> {
   final PageController ctrl = PageController(viewportFraction: 1);
   Animation<double> fadeIn;
-
+  int subListIndex = 0;
+  List<String> images = [
+    'assets/1.png',
+    'assets/2.png',
+    'assets/3.png',
+  ];
   @override
   void initState() {
     super.initState();
@@ -28,16 +33,20 @@ class _SlideShowState extends State<SlideShow> {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        mainList(),
+        sublist(),
+      ],
+    );
+  }
+
+  Widget mainList() {
     return AspectRatio(
-      aspectRatio: 1.3,
+      aspectRatio: 1.2,
       child: PageView(
         controller: ctrl,
-        // scrollDirection: Axis.horizontal,
-        children: [
-          displayCard('assets/1.png'),
-          displayCard('assets/2.png'),
-          displayCard('assets/3.png'),
-        ],
+        children: images.map((e) => displayCard(e)).toList(),
       ),
     );
   }
@@ -50,8 +59,55 @@ class _SlideShowState extends State<SlideShow> {
         child: Container(
           margin: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(26),
+            borderRadius: BorderRadius.circular(24),
             image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget sublist() {
+    return AspectRatio(
+      aspectRatio: 8,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: 0.95,
+          crossAxisCount: 1,
+          mainAxisSpacing: 0,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        scrollDirection: Axis.horizontal,
+        itemCount: images.length,
+        itemBuilder: (context, index) => subImage(images[index], index),
+      ),
+    );
+  }
+
+  Widget subImage(String image, int index) {
+    bool indexed = subListIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(
+          () {
+            subListIndex = index;
+            ctrl.animateToPage(index,
+                duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+          },
+        );
+      },
+      child: Opacity(
+        opacity: indexed ? 1 : 0.6,
+        child: Transform.scale(
+          scale: indexed ? 0.9 : 0.8,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              image: DecorationImage(
+                image: AssetImage(image),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
       ),
