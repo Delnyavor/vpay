@@ -60,18 +60,15 @@ class DetailsPageState extends State<DetailsPage>
   }
 
   Widget body() {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: ListView(
-          padding: const EdgeInsets.only(
-            bottom: 100,
-          ),
-          children: [
-            slideShow(),
-            SizedBox(height: 10),
-            detailsSection(),
-          ]),
-    );
+    return ListView(
+        padding: const EdgeInsets.only(
+          bottom: 100,
+        ),
+        children: [
+          slideShow(),
+          SizedBox(height: 25),
+          detailsSection(),
+        ]);
   }
 
   Widget slideShow() {
@@ -95,14 +92,14 @@ class DetailsPageState extends State<DetailsPage>
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 26.0,
-        vertical: 0,
+        vertical: 10,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           itemName(),
-          SizedBox(height: 35),
+          SizedBox(height: 25),
           description(),
           SizedBox(height: 35),
           sellerInfo(),
@@ -268,8 +265,8 @@ class DetailsPageState extends State<DetailsPage>
           child: builderChild,
         ),
         child: Container(
-          height: 110,
-          padding: const EdgeInsets.only(top: 30),
+          color: Colors.white,
+          padding: const EdgeInsets.only(top: 15, bottom: 15),
           width: MediaQuery.of(context).size.width,
           child: bottomBarContents(),
         ),

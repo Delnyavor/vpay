@@ -67,20 +67,20 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
     super.initState();
     controller = ScrollController();
     tabController = TabController(vsync: this, length: 0);
-    widget.animationController.addListener(() {
-      if (widget.animationController.isAnimating) {
-        if (completed) {
-          setState(() {
-            completed = false;
-            print(completed);
-          });
-        }
-      } else
-        setState(() {
-          completed = true;
-          print(completed);
-        });
-    });
+    // widget.animationController.addListener(() {
+    //   if (widget.animationController.isAnimating) {
+    //     if (completed) {
+    //       setState(() {
+    //         completed = false;
+    //         print(completed);
+    //       });
+    //     }
+    //   } else
+    //     setState(() {
+    //       completed = true;
+    //       print(completed);
+    //     });
+    // });
   }
 
   @override
