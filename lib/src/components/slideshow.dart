@@ -12,7 +12,7 @@ class SlideShow extends StatefulWidget {
 }
 
 class _SlideShowState extends State<SlideShow> {
-  final PageController ctrl = PageController(viewportFraction: 1);
+  final PageController ctrl = PageController();
   Animation<double> fadeIn;
   int subListIndex = 0;
   List<String> images = [
@@ -36,14 +36,14 @@ class _SlideShowState extends State<SlideShow> {
     return Column(
       children: [
         mainList(),
-        sublist(),
+        // sublist(),
       ],
     );
   }
 
   Widget mainList() {
     return AspectRatio(
-      aspectRatio: 1.2,
+      aspectRatio: 1.1,
       child: PageView(
         controller: ctrl,
         children: images.map((e) => displayCard(e)).toList(),
@@ -57,9 +57,9 @@ class _SlideShowState extends State<SlideShow> {
       builder: (BuildContext context, Widget builderchild) => FadeTransition(
         opacity: fadeIn,
         child: Container(
-          margin: const EdgeInsets.all(18),
+          margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(10),
             image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
           ),
         ),
@@ -69,14 +69,14 @@ class _SlideShowState extends State<SlideShow> {
 
   Widget sublist() {
     return AspectRatio(
-      aspectRatio: 8,
+      aspectRatio: 12,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 0.95,
           crossAxisCount: 1,
-          mainAxisSpacing: 0,
+          mainAxisSpacing: 10,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         scrollDirection: Axis.horizontal,
         itemCount: images.length,
         itemBuilder: (context, index) => subImage(images[index], index),
@@ -102,7 +102,7 @@ class _SlideShowState extends State<SlideShow> {
           scale: indexed ? 0.9 : 0.8,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(8),
               image: DecorationImage(
                 image: AssetImage(image),
                 fit: BoxFit.cover,

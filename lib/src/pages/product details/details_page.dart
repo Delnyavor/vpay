@@ -46,29 +46,43 @@ class DetailsPageState extends State<DetailsPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
       body: Stack(
         children: [
-          body(),
+          scrollView(),
           bottomBar(),
         ],
       ),
     );
   }
 
-  Widget body() {
-    return ListView(
-        padding: const EdgeInsets.only(
-          bottom: 100,
+  Widget scrollView() {
+    return CustomScrollView(
+      slivers: <Widget>[
+        sliverAppBar(),
+        SliverList(delegate: SliverChildListDelegate([slideShow()])),
+        SliverList(delegate: SliverChildListDelegate([itemName()])),
+        SliverList(delegate: SliverChildListDelegate([description()])),
+        SliverList(delegate: SliverChildListDelegate([sellerInfo()])),
+      ],
+    );
+  }
+
+  Widget sliverAppBar() {
+    return SliverAppBar(
+      iconTheme: IconThemeData(color: Colors.black87),
+      primary: true,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(
+          Icons.arrow_back,
         ),
-        children: [
-          slideShow(),
-          SizedBox(height: 25),
-          detailsSection(),
-        ]);
+      ),
+    );
   }
 
   Widget slideShow() {
@@ -77,83 +91,54 @@ class DetailsPageState extends State<DetailsPage>
     );
   }
 
-  Widget detailsSection() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
-      ),
-      child: details(),
-    );
-  }
-
-  Widget details() {
+  Widget itemName() {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 26.0,
-        vertical: 10,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          itemName(),
-          SizedBox(height: 25),
-          description(),
-          SizedBox(height: 35),
-          sellerInfo(),
+          Flexible(
+            child: Text(
+              'An Appropriately Descriptive Item Name',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.6,
+              ),
+            ),
+          ),
+          SizedBox(width: 15),
+          favoriteButton()
         ],
       ),
     );
   }
 
-  Widget itemName() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Flexible(
-          child: Text(
-            'An Appropriately Descriptive Item Name',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.6,
-              height: 1.5,
-            ),
-          ),
-        ),
-        SizedBox(width: 15),
-        favoriteButton()
-      ],
-    );
-  }
-
   Widget favoriteButton() {
-    return IconButton(
-      onPressed: () {},
-      icon: Icon(
-        Icons.favorite_outline_rounded,
-      ),
+    return Icon(
+      Icons.favorite_outline_rounded,
     );
   }
 
   Widget description() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        title('Description'),
-        SizedBox(height: 5),
-        Text(
-          '''So that there is no discrepancy in sound between the beginning and the end: the tone should not be too soft or too loud, but rather, like a properly built organ, the ensemble should remain unaltered and constant ''',
-          style: TextStyle(
-            fontSize: 13,
-            height: 1.7,
-            color: Colors.black.withOpacity(0.6),
-            fontWeight: FontWeight.w300,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          title('Description'),
+          SizedBox(height: 5),
+          Text(
+            '''So that there is no discrepancy in sound between the beginning and the end: the tone should not be too soft or too loud, but rather, like a properly built organ, the ensemble should remain unaltered and constant ''',
+            style: TextStyle(
+              fontSize: 13,
+              height: 1.7,
+              color: Colors.black.withOpacity(0.6),
+              fontWeight: FontWeight.w300,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -170,25 +155,29 @@ class DetailsPageState extends State<DetailsPage>
   }
 
   Widget sellerInfo() {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        textTheme: TextTheme(
-          bodyText2: TextStyle(
-            fontSize: 13,
-            height: 1.7,
-            color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          textTheme: TextTheme(
+            bodyText2: TextStyle(
+              fontSize: 13,
+              height: 1.7,
+              color: Colors.black,
+            ),
           ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          title('Seller Info'),
-          SizedBox(height: 10),
-          sellerNameAndRating(),
-          SizedBox(height: 5),
-          additionalSellerActions(),
-        ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            title('Seller Info'),
+            SizedBox(height: 10),
+            sellerNameAndRating(),
+            SizedBox(height: 5),
+            additionalSellerActions(),
+            SizedBox(height: 100),
+          ],
+        ),
       ),
     );
   }
@@ -265,9 +254,15 @@ class DetailsPageState extends State<DetailsPage>
           child: builderChild,
         ),
         child: Container(
-          color: Colors.white,
           padding: const EdgeInsets.only(top: 15, bottom: 15),
           width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(color: Colors.white, boxShadow: [
+            BoxShadow(
+              blurRadius: 1,
+              offset: Offset(0, 0),
+              color: Colors.black12,
+            )
+          ]),
           child: bottomBarContents(),
         ),
       ),
@@ -276,7 +271,7 @@ class DetailsPageState extends State<DetailsPage>
 
   Widget bottomBarContents() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
