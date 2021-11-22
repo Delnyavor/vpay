@@ -56,11 +56,15 @@ class _SlideShowState extends State<SlideShow> {
       animation: fadeIn,
       builder: (BuildContext context, Widget builderchild) => FadeTransition(
         opacity: fadeIn,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
+        child: Hero(
+          tag: '0',
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image:
+                  DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
+            ),
           ),
         ),
       ),

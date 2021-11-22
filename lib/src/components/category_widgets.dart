@@ -69,7 +69,7 @@ class _CategoryWidgetState extends State<CategoryWidget>
           crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
           crossAxisSpacing: 5,
           mainAxisSpacing: 5,
-          childAspectRatio: 0.7,
+          childAspectRatio: 0.72,
         ),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
@@ -105,7 +105,7 @@ class ProductWidget extends StatelessWidget {
         viewProduct(context);
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -119,17 +119,20 @@ class ProductWidget extends StatelessWidget {
   }
 
   Widget image() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: AspectRatio(
-        aspectRatio: 1 / 1,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/${(index % 3) + 1}.png',
+    return Hero(
+      tag: index.toString(),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: AspectRatio(
+          aspectRatio: 1 / 1,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/${(index % 3) + 1}.png',
+                ),
+                fit: BoxFit.cover,
               ),
-              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -138,7 +141,7 @@ class ProductWidget extends StatelessWidget {
   }
 
   Widget descriptors() => Padding(
-        padding: const EdgeInsets.fromLTRB(4, 10, 4, 4),
+        padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -150,10 +153,10 @@ class ProductWidget extends StatelessWidget {
                 fontWeight: FontWeight.w600,
                 color: Colors.black.withOpacity(0.7),
                 fontSize: 12,
-                letterSpacing: 0.6,
+                letterSpacing: 0.3,
               ),
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 3),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

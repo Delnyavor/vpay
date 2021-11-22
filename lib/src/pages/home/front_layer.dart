@@ -54,12 +54,12 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
             parent: widget.animationController, curve: Curves.linear));
 
     scaleAnimation = Tween<double>(begin: 1, end: 0.85).animate(CurvedAnimation(
-        parent: widget.animationController, curve: Curves.linear));
+        parent: widget.animationController, curve: Curves.easeInOut));
 
     rotationAnimation = Tween<double>(begin: 0, end: 0.1).animate(
         CurvedAnimation(
             parent: widget.animationController,
-            curve: Interval(0.4, 1, curve: Curves.fastOutSlowIn)));
+            curve: Interval(0, 1, curve: Curves.easeIn)));
   }
 
   @override
@@ -107,7 +107,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
 
   Widget animatedBuilder({Widget child}) {
     return AnimatedBuilder(
-      animation: radiusAnimation,
+      animation: widget.animationController,
       builder: (context, builderChild) => SlideTransition(
         position: offsetAnimation,
         child: Transform(
