@@ -5,6 +5,7 @@ class ChatMessageWidget extends StatefulWidget {
   final Message message;
   final Message nextMessage;
   final int index;
+
   ChatMessageWidget(this.message, this.nextMessage, this.index)
       : super(key: Key(index.toString()));
 
@@ -13,13 +14,13 @@ class ChatMessageWidget extends StatefulWidget {
 }
 
 class _ChatMessageWidgetState extends State<ChatMessageWidget> {
-  Color indigo;
   bool preceding = false;
+  Radius roundRadius = Radius.circular(16);
+  Radius pointedRadius = Radius.circular(4);
 
   @override
   void initState() {
     super.initState();
-    indigo = Colors.indigoAccent[400];
     if (widget.nextMessage != null) {
       preceding = widget.message.author == widget.nextMessage.author;
     }
@@ -50,16 +51,23 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
 
   Widget chatMessageDecoration() {
     return Container(
-      padding: const EdgeInsets.all(10),
-      margin: EdgeInsets.fromLTRB(10, 0, 10, 0.8),
+      padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+      margin: const EdgeInsets.fromLTRB(8, 0, 8, 1),
       decoration: BoxDecoration(
-        color: Colors.indigoAccent[400],
-        borderRadius: BorderRadius.circular(16),
+        color: widget.message.isMe
+            ? Theme.of(context).primaryColor
+            : Color(0xfff0f1f6),
+        borderRadius: BorderRadius.only(
+          topLeft: widget.message.isMe ? roundRadius : pointedRadius,
+          topRight: widget.message.isMe ? pointedRadius : roundRadius,
+          bottomRight: roundRadius,
+          bottomLeft: roundRadius,
+        ),
       ),
       child: Text(
         widget.message.message,
         style: TextStyle(
-          color: Colors.white,
+          color: widget.message.isMe ? Colors.white : Colors.black87,
           fontSize: 12,
         ),
       ),

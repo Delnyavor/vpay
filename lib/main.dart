@@ -36,8 +36,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Vpay',
         theme: ThemeData(
-          primaryColor: Color(0xff2dc8ac),
-          accentColor: Color(0xff0080F6),
+          // primaryColor: Color(0xff2dc8ac),
+          // accentColor: Color(0xff0080F6),
+          primaryColor: Color(0xff004aff),
           fontFamily: GoogleFonts.poppins().fontFamily,
           textTheme: GoogleFonts.poppinsTextTheme().copyWith(),
         ),
