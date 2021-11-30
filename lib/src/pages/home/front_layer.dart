@@ -43,7 +43,6 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
     categories = provider.categories;
     initialiseTabController();
 
-    tabController = TabController(vsync: this, length: categories.length);
     radiusAnimation = Tween<BorderRadius>(
             begin: BorderRadius.circular(0), end: BorderRadius.circular(20))
         .animate(CurvedAnimation(
@@ -67,20 +66,6 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
     super.initState();
     controller = ScrollController();
     tabController = TabController(vsync: this, length: 0);
-    // widget.animationController.addListener(() {
-    //   if (widget.animationController.isAnimating) {
-    //     if (completed) {
-    //       setState(() {
-    //         completed = false;
-    //         print(completed);
-    //       });
-    //     }
-    //   } else
-    //     setState(() {
-    //       completed = true;
-    //       print(completed);
-    //     });
-    // });
   }
 
   @override
@@ -91,13 +76,18 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
   }
 
   void initialiseTabController() {
-    if (selectedCategory.name.trim().isEmpty)
-      print('empty');
-    else
-      print(selectedCategory.name);
+    int index = 0;
 
-    if (categories.isNotEmpty) if (selectedCategory.name.isEmpty)
-      selectedCategory = categories[0];
+    if (categories.isNotEmpty) {
+      if (selectedCategory.name.isEmpty) {
+        selectedCategory = categories[0];
+      } else {
+        index = categories.indexOf(selectedCategory);
+      }
+    }
+
+    tabController = TabController(
+        vsync: this, length: categories.length, initialIndex: index);
   }
 
   @override
