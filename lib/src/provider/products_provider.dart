@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart' as f;
 import 'package:vpay/src/models/category.dart';
-import 'package:vpay/src/dao/products_repo.dart';
+import 'package:vpay/src/dao/products_dao.dart';
 
 class ProductsProvider extends f.ChangeNotifier {
-  ProductsRepo repo = ProductsRepo();
+  ProductsDao dao = ProductsDao();
   List<Category> categories = [];
   List<Product> products = [];
 
@@ -12,10 +12,10 @@ class ProductsProvider extends f.ChangeNotifier {
   }
 
   getData() {
-    repo.getCategories().then((value) {
+    dao.getCategories().then((value) {
       setCategories(value);
     });
-    repo.getProductsList().then((value) {
+    dao.getProductsList().then((value) {
       setProducts(value);
     });
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:vpay/src/pages/home/landing.dart';
+import 'package:vpay/src/provider/chat_provider.dart';
 import 'package:vpay/src/provider/products_provider.dart';
 import 'package:vpay/src/components/modal.dart';
 import 'src/pages/auth/userdetails.dart';
@@ -24,36 +25,35 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        // ChangeNotifierProvider(create: (context) => TransactionProvider()),
-        ChangeNotifierProvider(
-          create: (context) => ProductsProvider(),
-        ),
+    // return MultiProvider(
+    //   providers: [
+    //     ChangeNotifierProvider(create: (context) => ChatProvider()),
+    //     ChangeNotifierProvider(
+    //       create: (context) => ProductsProvider(),
+    //     ),
 
-        // ChangeNotifierProvider(create: (context) => CartProvider())
-      ],
-      child: MaterialApp(
-        title: 'Vpay',
-        theme: ThemeData(
-          // primaryColor: Color(0xff2dc8ac),
-          // accentColor: Color(0xff0080F6),
-          primaryColor: Color(0xff004aff),
-          fontFamily: GoogleFonts.poppins().fontFamily,
-          textTheme: GoogleFonts.poppinsTextTheme().copyWith(),
-        ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => Landing(),
-          Routes.login: (context) => LoginPage(),
-          Routes.signup: (context) => SignUpPage(),
-          Routes.userdetails: (context) => UserDetails(),
-          Routes.finalisation: (context) => FinalisationPage(),
-          Routes.landing: (context) => LandingPage(),
-          Routes.modal: (context) => MyModal(),
-          Routes.product: (context) => DetailsPage()
-        },
+    //     // ChangeNotifierProvider(create: (context) => CartProvider())
+    //   ],
+    return MaterialApp(
+      title: 'Vpay',
+      theme: ThemeData(
+        // primaryColor: Color(0xff2dc8ac),
+        // accentColor: Color(0xff0080F6),
+        primaryColor: Color(0xff004aff),
+        fontFamily: GoogleFonts.poppins().fontFamily,
+        textTheme: GoogleFonts.poppinsTextTheme().copyWith(),
       ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Landing(),
+        Routes.login: (context) => LoginPage(),
+        Routes.signup: (context) => SignUpPage(),
+        Routes.userdetails: (context) => UserDetails(),
+        Routes.finalisation: (context) => FinalisationPage(),
+        Routes.landing: (context) => LandingPage(),
+        Routes.modal: (context) => MyModal(),
+        Routes.product: (context) => DetailsPage()
+      },
     );
   }
 }

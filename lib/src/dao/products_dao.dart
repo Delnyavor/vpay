@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vpay/src/models/transaction.dart' as tran;
 import 'package:vpay/src/models/category.dart';
 
-class ProductsRepo {
+class ProductsDao {
   final CollectionReference _ref =
       FirebaseFirestore.instance.collection('products');
 
