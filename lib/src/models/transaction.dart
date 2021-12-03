@@ -7,20 +7,20 @@ class Transaction {
   final String paymentMode;
   final bool isRefunded;
   final DocumentReference reference;
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   Transaction(
-      {this.id,
-      this.number,
-      this.transactionId,
-      this.reference,
-      this.cost,
-      this.paymentMode})
+      {required this.id,
+      required this.number,
+      required this.transactionId,
+      required this.reference,
+      required this.cost,
+      required this.paymentMode})
       : isRefunded = false,
         timestamp = DateTime.now();
 
   Transaction.fromMap(Map<String, dynamic> map,
-      {this.reference, this.timestamp})
+      {required this.reference, this.timestamp})
       : id = map['id'],
         number = map['number'],
         transactionId = map['transactionId'],
@@ -29,7 +29,8 @@ class Transaction {
         paymentMode = map['paymentMode'];
 
   Transaction.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data(), reference: snapshot.reference);
+      : this.fromMap(snapshot.data() as Map<String, dynamic>,
+            reference: snapshot.reference);
 
   toJson() {
     return {
@@ -45,28 +46,24 @@ class Transaction {
 }
 
 class TransactionDetails {
-  DocumentReference ref;
-  CartModel model;
+  late final DocumentReference ref;
+  final double total;
   final String productName;
-  final double subTotal, quantity;
-  TransactionDetails({this.model})
-      : subTotal = model.cost,
-        productName = model.product.name,
-        quantity = model.quantity;
 
-  TransactionDetails.fromMap(Map<String, dynamic> map, {this.ref})
+  TransactionDetails({required this.total, required this.productName});
+
+  TransactionDetails.fromMap(Map<String, dynamic> map, {required this.ref})
       : productName = map["productName"],
-        subTotal = map["subTotal"],
-        quantity = map["quantity"];
+        total = map["total"];
 
   TransactionDetails.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data(), ref: snapshot.reference);
+      : this.fromMap(snapshot.data() as Map<String, dynamic>,
+            ref: snapshot.reference);
 
   toJson() {
     return {
       "productName": productName,
-      "subTotal": subTotal,
-      "quantity": quantity,
+      "total": total,
     };
   }
 }

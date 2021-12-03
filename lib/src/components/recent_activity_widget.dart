@@ -6,7 +6,7 @@ class LastActivitiesWidget extends StatefulWidget {
 }
 
 class _LastActivitiesWidgetState extends State<LastActivitiesWidget> {
-  TextTheme textTheme;
+  late TextTheme textTheme;
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -22,7 +22,7 @@ class _LastActivitiesWidgetState extends State<LastActivitiesWidget> {
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.grey[200],
+          color: Colors.grey[200]!,
           width: 1,
         ),
         borderRadius: BorderRadius.circular(15),
@@ -68,7 +68,7 @@ class _LastActivitiesWidgetState extends State<LastActivitiesWidget> {
       padding: const EdgeInsets.fromLTRB(20, 25, 20, 20),
       child: Text(
         'Last Activities',
-        style: textTheme.subtitle1.copyWith(
+        style: textTheme.subtitle1!.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.black87,
             letterSpacing: 0.5),
@@ -84,11 +84,11 @@ class _LastActivitiesWidgetState extends State<LastActivitiesWidget> {
       title: Text(
         '$who $what',
         maxLines: 2,
-        style: textTheme.subtitle2.copyWith(color: Colors.black87),
+        style: textTheme.subtitle2!.copyWith(color: Colors.black87),
       ),
       subtitle: Text(
         '$when',
-        style: textTheme.subtitle2.copyWith(color: Colors.black45),
+        style: textTheme.subtitle2!.copyWith(color: Colors.black45),
       ),
     );
   }

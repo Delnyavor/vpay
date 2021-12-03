@@ -10,10 +10,10 @@ class _UserDetailsState extends State<UserDetails>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
-  FocusNode node1, node2, node3, node4;
-  String _firstName, _lastName, _merchantId, _location;
-  double devicePixelRatio;
-  double dpr;
+  late FocusNode node1, node2, node3, node4;
+  late String _firstName, _lastName, _merchantId, _location;
+  late double devicePixelRatio;
+  late double dpr;
 
   @override
   void didChangeDependencies() {
@@ -109,14 +109,14 @@ class _UserDetailsState extends State<UserDetails>
                   'Profile',
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headline5!
                       .copyWith(fontSize: 28, color: Colors.lightBlue[600]),
                 ),
                 Text(
                   "Just a few more details",
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(height: 1.6, color: Colors.grey[700]),
                 )
               ],
@@ -145,8 +145,8 @@ class _UserDetailsState extends State<UserDetails>
             ),
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
-            validator: (String value) {
-              if (value.isEmpty)
+            validator: (String? value) {
+              if (value!.isEmpty)
                 return "Field is empty";
               else
                 return null;
@@ -156,8 +156,8 @@ class _UserDetailsState extends State<UserDetails>
               node1.unfocus();
               FocusScope.of(context).requestFocus(node2);
             },
-            onSaved: (String val) {
-              _firstName = val;
+            onSaved: (String? val) {
+              _firstName = val!;
             },
           ),
           SizedBox(
@@ -175,8 +175,8 @@ class _UserDetailsState extends State<UserDetails>
             ),
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
-            validator: (String value) {
-              if (value.isEmpty) {
+            validator: (String? value) {
+              if (value!.isEmpty) {
                 return 'Field is empty';
               } else
                 return null;
@@ -186,8 +186,8 @@ class _UserDetailsState extends State<UserDetails>
               node2.unfocus();
               FocusScope.of(context).requestFocus(node3);
             },
-            onSaved: (String val) {
-              _lastName = val;
+            onSaved: (String? val) {
+              _lastName = val!;
             },
           ),
           SizedBox(
@@ -209,14 +209,14 @@ class _UserDetailsState extends State<UserDetails>
               node3.unfocus();
               FocusScope.of(context).requestFocus(node4);
             },
-            validator: (String value) {
-              if (value.isEmpty)
+            validator: (String? value) {
+              if (value!.isEmpty)
                 return "Field is empty";
               else
                 return null;
             },
-            onSaved: (String val) {
-              _merchantId = val;
+            onSaved: (String? val) {
+              _merchantId = val!;
             },
           ),
           SizedBox(
@@ -240,15 +240,15 @@ class _UserDetailsState extends State<UserDetails>
               node4.unfocus();
               submit();
             },
-            // validator: (String value) {
+            // validator: (String? value) {
             //   if (value.length < 10) {
             //     return 'Number is invalid';
             //   } else
             //     return null;
             // },
 
-            onSaved: (String val) {
-              _location = val;
+            onSaved: (String? val) {
+              _location = val!;
             },
           ),
           SizedBox(
@@ -261,8 +261,8 @@ class _UserDetailsState extends State<UserDetails>
   }
 
   Future<bool> validateInputs() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       return true;
     } else
       return false;
@@ -334,7 +334,7 @@ class _UserDetailsState extends State<UserDetails>
               'Sign in',
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2
+                  .subtitle2!
                   .copyWith(color: Colors.lightBlue),
             ),
             onTap: () {

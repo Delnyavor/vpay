@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 ElevatedButton elevatedButton(
   BuildContext context, {
-  String label,
-  void Function() function,
+  required String label,
+  required Function() function,
   bool shrink = true,
-  Widget icon,
-  TextStyle labelStyle,
-  ButtonStyle buttonStyle,
+  Widget? icon,
+  TextStyle? labelStyle,
+  ButtonStyle? buttonStyle,
 }) {
   ThemeData theme = Theme.of(context);
 
@@ -21,7 +21,7 @@ ElevatedButton elevatedButton(
         Text(
           label,
           style: labelStyle ??
-              Theme.of(context).textTheme.button.copyWith(
+              Theme.of(context).textTheme.button!.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
@@ -37,7 +37,9 @@ ElevatedButton elevatedButton(
               if (states.contains(MaterialState.focused) ||
                   states.contains(MaterialState.pressed))
                 return Colors.blue.withOpacity(0.912);
-              return null; // Defer to the widget's default.
+              //
+              return Colors.blue
+                  .withOpacity(0.912); // Defer to the widget's default.
             },
           ),
       backgroundColor: buttonStyle?.backgroundColor ??
@@ -61,12 +63,12 @@ ElevatedButton elevatedButton(
 
 TextButton textButton(
   BuildContext context, {
-  @required String label,
+  required String label,
+  required Function() function,
   bool shrink = true,
-  Widget icon,
-  TextStyle labelStyle,
-  void Function() function,
-  ButtonStyle buttonStyle,
+  Widget? icon,
+  TextStyle? labelStyle,
+  ButtonStyle? buttonStyle,
 }) {
   ThemeData theme = Theme.of(context);
 
@@ -80,10 +82,10 @@ TextButton textButton(
         Text(
           label,
           style: labelStyle ??
-              Theme.of(context).textTheme.button.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
+              Theme.of(context)
+                  .textTheme
+                  .button!
+                  .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
         ),
       ],
     ),
@@ -92,11 +94,12 @@ TextButton textButton(
           MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.hovered))
-                return Colors.indigoAccent[700];
+                return Colors.indigoAccent[700]!;
               if (states.contains(MaterialState.focused) ||
                   states.contains(MaterialState.pressed))
-                return Colors.indigoAccent[700];
-              return null; // Defer to the widget's default.
+                return Colors.indigoAccent[700]!;
+              return Colors
+                  .indigoAccent[700]!; // Defer to the widget's default.
             },
           ),
       backgroundColor: buttonStyle?.backgroundColor ??

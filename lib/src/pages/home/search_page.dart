@@ -9,15 +9,15 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
-  ThemeData theme;
-  TextEditingController controller;
-  AnimationController animationController;
-  Animation<Offset> offsetAnimation;
-  Animation<BorderRadius> radiusAnimation;
-  Animation<Size> sizeAnimation;
-  Size dimensions;
+  late ThemeData theme;
+  late TextEditingController controller;
+  late AnimationController animationController;
+  late Animation<Offset> offsetAnimation;
+  late Animation<BorderRadius> radiusAnimation;
+  late Animation<Size> sizeAnimation;
+  late Size dimensions;
 
-  ProductsProvider provider;
+  late ProductsProvider provider;
 
   @override
   void didChangeDependencies() {
@@ -62,7 +62,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     return Scaffold(
       body: AnimatedBuilder(
         animation: sizeAnimation,
-        builder: (BuildContext context, Widget child) {
+        builder: (BuildContext context, Widget? child) {
           return SizedBox(
             height: sizeAnimation.value.height,
             width: sizeAnimation.value.width,

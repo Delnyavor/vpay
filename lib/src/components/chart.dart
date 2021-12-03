@@ -41,7 +41,7 @@ class GraphCurvePainter extends StatefulWidget {
 
 class _GraphCurvePainterState extends State<GraphCurvePainter>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
+  late AnimationController controller;
   @override
   void initState() {
     super.initState();
@@ -73,7 +73,7 @@ class _GraphCurvePainterState extends State<GraphCurvePainter>
       child: ClipRect(
         child: AnimatedBuilder(
           animation: controller,
-          builder: (BuildContext context, Widget child) => Transform(
+          builder: (BuildContext context, Widget? child) => Transform(
             alignment: Alignment.center,
             transform: Matrix4.rotationX(pi),
             child: CustomPaint(
@@ -91,7 +91,11 @@ class _GraphCurvePainterState extends State<GraphCurvePainter>
 }
 
 class GraphCurve extends CustomPainter {
-  GraphCurve({this.divisions, this.progress, this.maxValue, this.values});
+  GraphCurve(
+      {required this.divisions,
+      required this.progress,
+      required this.maxValue,
+      required this.values});
   double maxValue;
   List<double> values = <double>[];
   int divisions;
@@ -192,12 +196,12 @@ class _FlexDataState extends State<FlexData>
   List<num> values = [300, 1350, 790, 2700, 520, 200, 1300];
   int divisions = 6;
   double maxValue = 3000;
-  double divisionRatio;
-  double divisionWidth;
+  late double divisionRatio;
+  late double divisionWidth;
   double height = 0;
   List<Widget> list = <Widget>[];
 
-  AnimationController controller;
+  late AnimationController controller;
   @override
   void initState() {
     super.initState();
@@ -227,7 +231,7 @@ class _FlexDataState extends State<FlexData>
 
   void getSize() {
     Future.delayed(Duration(milliseconds: 100), () {
-      RenderBox box = key.currentContext.findRenderObject();
+      RenderBox box = key.currentContext!.findRenderObject() as RenderBox;
 
       setState(() {
         divisionWidth = (box.size.width - 20) / divisions;
@@ -307,21 +311,21 @@ class Node extends StatefulWidget {
   final Interval interval;
   final AnimationController controller;
   Node(
-      {this.value,
-      this.divisionWidth,
-      this.height,
-      this.index,
-      this.maxValue,
+      {required this.value,
+      required this.divisionWidth,
+      required this.height,
+      required this.index,
+      required this.maxValue,
       this.isAtEnd = false,
-      this.interval,
-      this.controller});
+      required this.interval,
+      required this.controller});
   @override
   _NodeState createState() => _NodeState();
 }
 
 class _NodeState extends State<Node> {
-  Animation<double> opacityAnimation, bounceIn1, bounceIn2;
-  Animation scaleAnimation;
+  late Animation<double> opacityAnimation, bounceIn1, bounceIn2;
+  late Animation scaleAnimation;
   bool clicked = false;
 
   @override
@@ -372,7 +376,7 @@ class _NodeState extends State<Node> {
   Widget nodeBuilder() {
     return AnimatedBuilder(
       animation: opacityAnimation,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return ScaleTransition(
           scale: bounceIn1,
           child: ScaleTransition(
@@ -400,8 +404,8 @@ class _NodeState extends State<Node> {
   Widget nodeDot() {
     return PhysicalModel(
       elevation: 2,
-      color: Colors.grey[800],
-      shadowColor: Colors.grey[200],
+      color: Colors.grey[800]!,
+      shadowColor: Colors.grey[200]!,
       shape: BoxShape.circle,
       child: Container(
         padding: const EdgeInsets.all(5),

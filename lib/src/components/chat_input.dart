@@ -6,7 +6,7 @@ import 'package:vpay/src/provider/chat_provider.dart';
 
 class ChatInput extends StatefulWidget {
   final Function onSubmitted;
-  ChatInput({Key key, this.onSubmitted}) : super(key: key);
+  ChatInput({Key? key, required this.onSubmitted}) : super(key: key);
 
   @override
   ChatInputState createState() => ChatInputState();
@@ -14,7 +14,7 @@ class ChatInput extends StatefulWidget {
 
 class ChatInputState extends State<ChatInput> {
   TextEditingController controller = TextEditingController();
-  ChatProvider chatProvider;
+  late ChatProvider chatProvider;
 
   @override
   void didChangeDependencies() {

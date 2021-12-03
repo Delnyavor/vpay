@@ -3,15 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Category {
   final String name;
   final String id;
-  final DocumentReference reference;
+  final DocumentReference? reference;
 
-  Category({this.id, this.name, this.reference});
+  Category({required this.id, required this.name, this.reference});
 
-  Category.fromMap(Map<String, dynamic> map, {this.id, this.reference})
+  Category.fromMap(Map<String, dynamic> map, {required this.id, this.reference})
       : name = map['name'];
 
   Category.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data(), id: snapshot.id);
+      : this.fromMap(snapshot.data() as Map<String, dynamic>, id: snapshot.id);
 
   toJson() {
     return {"name": name};
@@ -27,7 +27,7 @@ class Product {
   String img;
   String category;
   // List<Variation> variations;
-  DocumentReference reference;
+  DocumentReference? reference;
 
   Product({
     this.name = "",
@@ -37,10 +37,10 @@ class Product {
     this.description = "",
     this.id = "",
     this.category = "",
-    // this.variations
+    this.reference,
   });
 
-  Product.fromMap(Map<String, dynamic> map, {this.id, this.reference})
+  Product.fromMap(Map<String, dynamic> map, {required this.id, this.reference})
       : name = map['name'].toString(),
         description = map['description'],
         quantity = map['quantity'],
@@ -50,7 +50,7 @@ class Product {
   // variations = List.from(map['variations'])
 
   Product.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data(),
+      : this.fromMap(snapshot.data() as Map<String, dynamic>,
             id: snapshot.id, reference: snapshot.reference);
 
   toJson() {
@@ -63,22 +63,5 @@ class Product {
       "description": description
       // "variations": variations
     };
-  }
-}
-
-class CartModel {
-  final Product product;
-  double quantity;
-  double _cost;
-
-  CartModel({this.product, this.quantity})
-      //TODO product price is required
-      //also, this works
-      : _cost = quantity * (product.price ?? 0);
-
-  double get cost => _cost;
-
-  void recalculateCost() {
-    _cost = quantity * product.price;
   }
 }

@@ -11,26 +11,26 @@ import 'package:vpay/src/components/slivers.dart';
 
 class FrontLayer extends StatefulWidget {
   final AnimationController animationController;
-  FrontLayer({Key key, this.animationController}) : super(key: key);
+  FrontLayer({Key? key, required this.animationController}) : super(key: key);
   @override
   _FrontLayerState createState() => _FrontLayerState();
 }
 
 class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
-  ThemeData theme;
-  ScrollController controller;
-  TabController tabController;
-  double deviceWidth;
-  ProductsProvider provider;
+  late ThemeData theme;
+  late ScrollController controller;
+  late TabController tabController;
+  late double deviceWidth;
+  late ProductsProvider provider;
   List<Category> categories = [];
-  Category selectedCategory = Category(name: "");
+  Category selectedCategory = Category(name: "", id: '0');
 
   bool completed = false;
-  Animation<Offset> offsetAnimation;
-  Animation<BorderRadius> radiusAnimation;
-  Animation<double> scaleAnimation, rotationAnimation;
+  late Animation<Offset> offsetAnimation;
+  late Animation<BorderRadius> radiusAnimation;
+  late Animation<double> scaleAnimation, rotationAnimation;
 
-  Size dimensions;
+  late Size dimensions;
 
   @override
   void didChangeDependencies() {
@@ -95,7 +95,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
     return animatedBuilder(child: frontLayerContents());
   }
 
-  Widget animatedBuilder({Widget child}) {
+  Widget animatedBuilder({required Widget child}) {
     return AnimatedBuilder(
       animation: widget.animationController,
       builder: (context, builderChild) => SlideTransition(
@@ -146,7 +146,9 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
           padding: const EdgeInsets.only(bottom: 25, top: 10),
           sliver: SliverHeader(
             floating: true,
-            child: SearchWidget(),
+            child: SearchWidget(
+              newRoute: Container(),
+            ),
           ),
         ),
         SliverPadding(
@@ -196,13 +198,13 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
       child: ScrollConfiguration(
         behavior: ScrollBehavior(),
         child: TabBar(
-          labelStyle: theme.textTheme.caption.copyWith(
+          labelStyle: theme.textTheme.caption!.copyWith(
               letterSpacing: 0.4, fontWeight: FontWeight.w500, fontSize: 10),
           controller: tabController,
           labelColor: Colors.black87,
           isScrollable: true,
           unselectedLabelColor: Colors.black38,
-          unselectedLabelStyle: theme.textTheme.caption.copyWith(
+          unselectedLabelStyle: theme.textTheme.caption!.copyWith(
               letterSpacing: 0.4, fontWeight: FontWeight.w400, fontSize: 10),
           indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
           // indicatorSize: TabBarIndicatorSize.tab,
@@ -267,7 +269,7 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
   }
 
   Widget tab(String label) {
-    Color blue = Colors.indigo[400];
+    Color? blue = Colors.indigo[400];
     Color white = Colors.white;
 
     return Tab(

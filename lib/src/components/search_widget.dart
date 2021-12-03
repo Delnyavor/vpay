@@ -6,7 +6,7 @@ import 'package:vpay/src/pages/home/search_page.dart';
 class SearchWidget extends StatelessWidget {
   final Widget newRoute;
 
-  SearchWidget({Key key, this.newRoute}) : super(key: key);
+  SearchWidget({Key? key, required this.newRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +19,13 @@ class SearchWidget extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.blueGrey[50].withOpacity(0.5),
+              color: Colors.blueGrey[50]!.withOpacity(0.5),
               blurRadius: 20,
               spreadRadius: 5,
               offset: Offset(0, 10),
             ),
             BoxShadow(
-              color: Colors.blueGrey[50].withOpacity(1),
+              color: Colors.blueGrey[50]!.withOpacity(1),
               blurRadius: 1,
               spreadRadius: 0,
               offset: Offset(0, 3),
@@ -54,7 +54,7 @@ class SearchWidget extends StatelessWidget {
             textAlign: TextAlign.left,
             style: Theme.of(context)
                 .textTheme
-                .caption
+                .caption!
                 .copyWith(letterSpacing: 0.5, color: Colors.black45),
           ),
         ],

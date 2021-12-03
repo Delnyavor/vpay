@@ -7,7 +7,7 @@ import 'package:vpay/src/components/buttons.dart';
 import 'package:vpay/src/components/slideshow.dart';
 
 class DetailsPage extends StatefulWidget {
-  final Product product;
+  final Product? product;
   DetailsPage({this.product});
   @override
   DetailsPageState createState() => DetailsPageState();
@@ -15,8 +15,8 @@ class DetailsPage extends StatefulWidget {
 
 class DetailsPageState extends State<DetailsPage>
     with TickerProviderStateMixin {
-  AnimationController animationController;
-  Animation<Offset> bottomBarOffsetAnimation;
+  late AnimationController animationController;
+  late Animation<Offset> bottomBarOffsetAnimation;
 
   @override
   void initState() {
@@ -307,7 +307,7 @@ class DetailsPageState extends State<DetailsPage>
               ),
             ),
             backgroundColor: MaterialStateProperty.all<Color>(
-              Colors.indigoAccent[700],
+              Colors.indigoAccent[700]!,
             ),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               EdgeInsets.symmetric(

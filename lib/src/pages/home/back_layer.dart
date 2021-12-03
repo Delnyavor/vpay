@@ -10,16 +10,16 @@ class BackLayer extends StatefulWidget {
 }
 
 class _BackLayerState extends State<BackLayer> {
-  TextStyle theme;
-  ScrollController controller;
-  Animation slideAnimation;
+  late TextStyle theme;
+  late ScrollController controller;
+  late Animation slideAnimation;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     theme = Theme.of(context)
         .textTheme
-        .subtitle1
+        .subtitle1!
         .copyWith(color: Colors.white, fontSize: 12);
     controller = ScrollController();
     slideAnimation = Tween<Offset>(

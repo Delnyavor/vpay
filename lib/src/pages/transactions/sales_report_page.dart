@@ -11,9 +11,9 @@ class SalesReportPage extends StatefulWidget {
 
 class _SalesReportPageState extends State<SalesReportPage>
     with TickerProviderStateMixin {
-  TextTheme textTheme;
-  ThemeData theme;
-  TabController tabController;
+  late TextTheme textTheme;
+  late ThemeData theme;
+  late TabController tabController;
   List<String> periods = ['1D', '1W', '1M', '3M', '6M', '1Y'];
 
   @override
@@ -24,7 +24,6 @@ class _SalesReportPageState extends State<SalesReportPage>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     tabController = TabController(vsync: this, length: 6);
   }
@@ -158,7 +157,7 @@ class _SalesReportPageState extends State<SalesReportPage>
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: TabBar(
-        labelStyle: textTheme.caption
+        labelStyle: textTheme.caption!
             .copyWith(letterSpacing: 0.5, fontWeight: FontWeight.w500),
         controller: tabController,
         labelColor: Color(0xf00080F6),

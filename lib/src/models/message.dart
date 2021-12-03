@@ -3,14 +3,11 @@ class Message {
   DateTime date;
   String author;
   bool isMe = false;
-  MessagePosition messagePosition;
 
-  Message(
-      {this.date,
-      this.message,
-      this.author,
-      this.isMe,
-      this.messagePosition = MessagePosition.leading});
+  Message({
+    required this.date,
+    required this.message,
+    required this.author,
+    required this.isMe,
+  });
 }
-
-enum MessagePosition { leading, middle, trailing }

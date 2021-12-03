@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class SlideShow extends StatefulWidget {
   SlideShow({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
   }) : super(key: key);
   final AnimationController controller;
 
@@ -13,7 +13,7 @@ class SlideShow extends StatefulWidget {
 
 class _SlideShowState extends State<SlideShow> {
   final PageController ctrl = PageController();
-  Animation<double> fadeIn;
+  late Animation<double> fadeIn;
   int subListIndex = 0;
   List<String> images = [
     'assets/1.png',
@@ -54,7 +54,7 @@ class _SlideShowState extends State<SlideShow> {
   Widget displayCard(String image) {
     return AnimatedBuilder(
       animation: fadeIn,
-      builder: (BuildContext context, Widget builderchild) => FadeTransition(
+      builder: (BuildContext context, Widget? builderchild) => FadeTransition(
         opacity: fadeIn,
         child: Hero(
           tag: '0',

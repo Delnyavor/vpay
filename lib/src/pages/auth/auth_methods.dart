@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 Future<UserCredential> firebaseSignIn(BuildContext context,
-    {String email, String password, void errorFunc()}) async {
+    {required String email,
+    required String password,
+    Function()? onError}) async {
   FirebaseAuth auth = FirebaseAuth.instance;
-  UserCredential userCredential;
+  late UserCredential userCredential;
   try {
     userCredential =
         await auth.signInWithEmailAndPassword(email: email, password: password);
   } on PlatformException catch (error) {
-    showSnackBar(context: context, text: error.message);
-    errorFunc();
+    showSnackBar(context: context, text: error.message!);
+    onError!;
   } on Exception catch (error) {
     print(error);
   }
@@ -20,11 +22,12 @@ Future<UserCredential> firebaseSignIn(BuildContext context,
 }
 
 Future<void> signIn(BuildContext context,
-    {String email, String password, void errorFunc()}) async {
-  firebaseSignIn(context,
-          email: email, password: password, errorFunc: errorFunc)
+    {required String email,
+    required String password,
+    Function()? onError}) async {
+  firebaseSignIn(context, email: email, password: password, onError: onError)
       .then((result) {
-    if (result != null) {
+    if (result.user != null) {
       Navigator.pushReplacementNamed(context, 'signup');
     } else
       Navigator.pushReplacementNamed(context, 'inventory');
@@ -32,15 +35,17 @@ Future<void> signIn(BuildContext context,
 }
 
 Future<UserCredential> firebaseSignUp(BuildContext context,
-    {String email, String password, void errorFunc()}) async {
+    {required String email,
+    required String password,
+    Function()? onError}) async {
   FirebaseAuth auth = FirebaseAuth.instance;
-  UserCredential userCredential;
+  late UserCredential userCredential;
   try {
     userCredential = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
   } on PlatformException catch (error) {
-    showSnackBar(context: context, text: error.message);
-    errorFunc();
+    showSnackBar(context: context, text: error.message!);
+    onError!;
   } on Exception catch (error) {
     print(error);
   }
@@ -49,29 +54,30 @@ Future<UserCredential> firebaseSignUp(BuildContext context,
 }
 
 Future<void> signUp(BuildContext context,
-    {String email, String password, void errorFunc()}) async {
-  firebaseSignUp(context,
-          email: email, password: password, errorFunc: errorFunc)
+    {required String email,
+    required String password,
+    Function()? onError}) async {
+  firebaseSignUp(context, email: email, password: password, onError: onError)
       .then((result) {
-    if (result != null) {
+    if (result.user != null) {
       Navigator.pushNamed(context, 'userdetails');
     }
   });
 }
 
-void showSnackBar({BuildContext context, String text}) {
+void showSnackBar({required BuildContext context, required String text}) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(text,
         style: Theme.of(context)
             .textTheme
-            .subtitle2
+            .subtitle2!
             .copyWith(color: Colors.white)),
     elevation: 4,
     behavior: SnackBarBehavior.floating,
   ));
 }
 
-SnackBar snackBar({Widget content}) {
+SnackBar snackBar({required Widget content}) {
   return SnackBar(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
     content: content,
@@ -83,7 +89,7 @@ SnackBar snackBar({Widget content}) {
 Future<void> checkUser(BuildContext context) async {
   FirebaseAuth auth = FirebaseAuth.instance;
   // auth.signOut();
-  User user = auth.currentUser;
+  User? user = auth.currentUser;
 
   if (user != null) {
     Navigator.pushReplacementNamed(context, 'signup');

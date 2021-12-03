@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class SABT extends StatefulWidget {
   final Widget child;
   const SABT({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
   @override
   _SABTState createState() {
@@ -13,12 +13,14 @@ class SABT extends StatefulWidget {
 }
 
 class _SABTState extends State<SABT> with TickerProviderStateMixin {
-  AnimationController animationController;
-  Animation<double> opacity;
-  Tween<double> tween;
-  bool activate;
+  late AnimationController animationController;
+  late Animation<double> opacity;
+  late Tween<double> tween;
+  late ScrollPosition _position;
 
-  Opacity _opacity = Opacity(opacity: 1.0,);
+  Opacity _opacity = Opacity(
+    opacity: 1.0,
+  );
 
   @override
   void initState() {
@@ -29,8 +31,6 @@ class _SABTState extends State<SABT> with TickerProviderStateMixin {
     tween = Tween<double>(begin: 0, end: 1);
     opacity = tween.animate(animationController);
   }
-
-  ScrollPosition _position;
 
   @override
   void dispose() {
@@ -46,25 +46,31 @@ class _SABTState extends State<SABT> with TickerProviderStateMixin {
   }
 
   void _addListener() {
-    _position = Scrollable.of(context)?.position;
-    _position?.addListener(_visiblePositionListener);
+    _position = Scrollable.of(context)!.position;
+    _position.addListener(_visiblePositionListener);
     _visiblePositionListener();
   }
 
   void _removeListener() {
-    _position?.removeListener(_visiblePositionListener);
+    _position.removeListener(_visiblePositionListener);
   }
 
   void _visiblePositionListener() {
     final FlexibleSpaceBarSettings settings = context
-        .dependOnInheritedWidgetOfExactType(aspect: FlexibleSpaceBarSettings);
-    bool visible =
-        settings == null || settings.currentExtent == settings.minExtent;
+        .dependOnInheritedWidgetOfExactType(aspect: FlexibleSpaceBarSettings)!;
+    bool visible = settings.currentExtent == settings.minExtent;
     if (visible == true) {
-      setState(() {_opacity = Opacity(opacity: 1,);});
+      setState(() {
+        _opacity = Opacity(
+          opacity: 1,
+        );
+      });
     } else {
-        setState(() {_opacity = Opacity(opacity: 0,);});
- 
+      setState(() {
+        _opacity = Opacity(
+          opacity: 0,
+        );
+      });
     }
   }
 

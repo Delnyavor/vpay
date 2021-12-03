@@ -10,7 +10,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage>
     with TickerProviderStateMixin {
-  AnimationController animationController;
+  late AnimationController animationController;
 
   @override
   void initState() {
@@ -34,6 +34,7 @@ class _LandingPageState extends State<LandingPage>
           BackLayer(animationController),
           FrontLayer(
             animationController: animationController,
+            key: null,
           ),
           sliderDetector()
         ],

@@ -15,7 +15,7 @@ class ProductsDao {
 
   List<Product> products = [];
   List<Category> categories = [];
-  List<tran.Transaction> _transactions = [];
+  List<tran.Transaction> transactions = [];
 
   Future<Query> getProductsAsQuery() async {
     return _ref.orderBy("name");
@@ -44,16 +44,16 @@ class ProductsDao {
     return categories;
   }
 
-  Future<void> getTransactions() async {
-    await transRef.orderBy("timestamp", descending: true).get().then(
+  Future<List<tran.Transaction>> getTransactions() async {
+    await transRef.orderBy("timestamp").get().then(
       (e) {
-        _transactions =
+        transactions =
             e.docs.map((f) => tran.Transaction.fromSnapshot(f)).toList();
       },
     ).whenComplete(() {
-      print("number of transactions: ${_transactions.length}");
+      print("number of transactions: ${transactions.length}");
     });
-    return _transactions;
+    return transactions;
   }
 
   Product getProductById(String id) {
@@ -83,23 +83,23 @@ class ProductsDao {
     _ref.add(product.toJson()).whenComplete(() {}).whenComplete(() {
       print("Product added successfully!");
     }).then((e) {
-      getProductByRef(product.reference);
+      getProductByRef(product.reference!);
     });
   }
 
   Future<void> deleteproduct(Product product) async {
-    product.reference.delete().whenComplete(() {});
+    product.reference!.delete().whenComplete(() {});
   }
 
   Future<void> modifyproduct(Product product) async {
-    product.reference.update(product.toJson()).whenComplete(() {
+    product.reference!.update(product.toJson()).whenComplete(() {
       // getData();
     });
   }
 
   Future<void> modifyProducts(List<Product> products) async {
     products.forEach((f) {
-      f.reference.update(f.toJson());
+      f.reference!.update(f.toJson());
     });
   }
 
@@ -108,11 +108,11 @@ class ProductsDao {
   }
 
   Future<void> deleteCategory(Category category) async {
-    category.reference.delete().whenComplete(() {});
+    category.reference!.delete().whenComplete(() {});
   }
 
   Future<void> modifyCategory(Category newCategory, String oldCategory) async {
-    await newCategory.reference.update(newCategory.toJson()).whenComplete(() {
+    await newCategory.reference!.update(newCategory.toJson()).whenComplete(() {
       products.forEach((product) {
         if (product.category == oldCategory)
           product.category = newCategory.name;
@@ -120,15 +120,6 @@ class ProductsDao {
       });
     }).whenComplete(() {});
   }
-
-  Future<void> runModifications(List<CartModel> models) async {
-    models.forEach((model) {
-      print("quantity: ${model.product.quantity}");
-      modifyproduct(model.product);
-    });
-  }
-
-  List<tran.Transaction> get transactions => _transactions;
 
   Future<void> addTransaction(tran.Transaction transaction,
       List<tran.TransactionDetails> details) async {

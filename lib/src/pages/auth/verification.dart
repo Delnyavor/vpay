@@ -13,11 +13,11 @@ class _FinalisationPageState extends State<FinalisationPage>
   final _formKey = GlobalKey<FormState>();
   bool _obfuscation = true;
   bool _isLoading = false;
-  String _email, _password;
-  FocusNode focusNode1, focusNode2;
-  double devicePixelRatio;
-  BuildContext snackBarContext;
-  double dpr;
+  late String _email, _password;
+  late FocusNode focusNode1, focusNode2;
+  late double devicePixelRatio;
+  late BuildContext snackBarContext;
+  late double dpr;
 
   @override
   void initState() {
@@ -112,14 +112,14 @@ class _FinalisationPageState extends State<FinalisationPage>
                   'Finish',
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headline5!
                       .copyWith(fontSize: 28, color: Colors.lightBlue[600]),
                 ),
                 Text(
                   "By signing up, you agree to Vpay's terms and conditions",
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(height: 2, color: Colors.grey[600]),
                 )
               ],
@@ -156,8 +156,8 @@ class _FinalisationPageState extends State<FinalisationPage>
               FocusScope.of(context).requestFocus(focusNode2);
             },
             validator: validateEmail,
-            onSaved: (String val) {
-              _email = val;
+            onSaved: (String? val) {
+              _email = val!;
             },
           ),
           SizedBox(
@@ -189,8 +189,8 @@ class _FinalisationPageState extends State<FinalisationPage>
             },
             obscureText: _obfuscation,
             validator: validatePassword,
-            onSaved: (String val) {
-              _password = val;
+            onSaved: (String? val) {
+              _password = val!;
             },
           ),
           SizedBox(
@@ -202,18 +202,18 @@ class _FinalisationPageState extends State<FinalisationPage>
     );
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
+  String? validateEmail(String? value) {
+    String pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
+    if (!regex.hasMatch(value!))
       return 'Enter Valid Email';
     else
       return null;
   }
 
-  String validatePassword(String value) {
-    if (value.length < 8) {
+  String? validatePassword(String? value) {
+    if (value!.length < 8) {
       return 'Pasword must be at least 8 characters long';
     } else if (!value.contains(RegExp(r'[0-9]{1,}'))) {
       return 'Password must be alphanumeric';
@@ -222,8 +222,8 @@ class _FinalisationPageState extends State<FinalisationPage>
   }
 
   Future<bool> validateInputs() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       return true;
     } else
       return false;
@@ -286,7 +286,7 @@ class _FinalisationPageState extends State<FinalisationPage>
         if (validated) {
           print('$_email , $_password');
           signIn(snackBarContext,
-              email: _email, password: _password, errorFunc: resetState);
+              email: _email, password: _password, onError: resetState);
         } else
           resetState();
       },

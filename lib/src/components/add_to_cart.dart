@@ -1,24 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:vpay/src/models/category.dart';
-import 'package:vpay/src/utils/screen_adaptor.dart';
 
 class AddToCart extends StatefulWidget {
   final Product product;
 
-  const AddToCart({Key key, this.product}) : super(key: key);
+  const AddToCart({Key? key, required this.product}) : super(key: key);
   @override
   _AddToCartState createState() => _AddToCartState();
 }
 
 class _AddToCartState extends State<AddToCart> {
-  double dpr;
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    dpr = MediaQuery.of(context).devicePixelRatio;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -32,7 +23,7 @@ class _AddToCartState extends State<AddToCart> {
             // shrinkWrap: true,
             children: <Widget>[
               top(),
-              Divider(height: ResponsiveSize.flexSize(30, dpr)),
+              Divider(height: 30),
               SizedBox(
                   // height: 500,
                   // child: Container(color: Colors.green),
@@ -54,8 +45,8 @@ class _AddToCartState extends State<AddToCart> {
         children: [
           Container(
             // color: Colors.grey,
-            height: ResponsiveSize.flexSize(100, dpr),
-            width: ResponsiveSize.flexSize(110, dpr),
+            height: 100,
+            width: 100,
             child: Image.asset(
               'assets/bag.png',
               fit: BoxFit.contain,
@@ -63,7 +54,7 @@ class _AddToCartState extends State<AddToCart> {
           ),
           SizedBox(width: 10),
           Container(
-            width: ResponsiveSize.flexSize(120, dpr),
+            width: 100,
             padding: const EdgeInsets.only(right: 10, bottom: 10),
             // color: Colors.grey,
             child: Column(
@@ -78,9 +69,7 @@ class _AddToCartState extends State<AddToCart> {
                       fontSize: 12,
                       letterSpacing: 0.5),
                 ),
-                SizedBox(
-                  height: ResponsiveSize.flexSize(4, dpr),
-                ),
+                SizedBox(height: 4),
                 Text(
                   "GHS ${widget.product.price}",
                   style: TextStyle(
@@ -99,7 +88,7 @@ class _AddToCartState extends State<AddToCart> {
 
   Widget bottom() {
     return Padding(
-      padding: const EdgeInsets.only(top:10.0),
+      padding: const EdgeInsets.only(top: 10.0),
       child: Column(
         children: <Widget>[
           Text(

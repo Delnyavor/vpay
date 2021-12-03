@@ -13,17 +13,16 @@ import 'modal.dart';
 class CategoryWidget extends StatefulWidget {
   final Category category;
 
-  const CategoryWidget({Key key, this.category}) : super(key: key);
+  const CategoryWidget({Key? key, required this.category}) : super(key: key);
   @override
   _CategoryWidgetState createState() => _CategoryWidgetState();
 }
 
 class _CategoryWidgetState extends State<CategoryWidget>
     with AutomaticKeepAliveClientMixin {
-  ProductsProvider provider;
-  TextTheme textTheme;
-  ThemeData theme;
-  Category category = Category();
+  late ProductsProvider provider;
+  late TextTheme textTheme;
+  late ThemeData theme;
 
   @override
   void didChangeDependencies() {
@@ -95,7 +94,11 @@ class ProductWidget extends StatelessWidget {
   final TextTheme textTheme;
   final ThemeData theme;
   const ProductWidget(
-      {this.product, this.theme, this.textTheme, this.index, this.focusNode});
+      {required this.product,
+      required this.theme,
+      required this.textTheme,
+      required this.index,
+      required this.focusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +166,7 @@ class ProductWidget extends StatelessWidget {
                 Flexible(
                   child: Text(
                     'GHS${product.price}',
-                    style: textTheme.overline.copyWith(
+                    style: textTheme.overline!.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: 10,
                       color: Colors.black45,
@@ -222,144 +225,9 @@ class ProductWidget extends StatelessWidget {
       context: context,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      builder: (context) => MyModal(),
-    );
-  }
-}
-
-class Interactor extends StatefulWidget {
-  final Product product;
-  Interactor({this.product});
-  @override
-  _InteractorState createState() => _InteractorState();
-}
-
-class _InteractorState extends State<Interactor> with TickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> slideAnimation, scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    slideAnimation = Tween<double>(begin: 0, end: 0.2)
-        .animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
-
-    scaleAnimation = Tween<double>(begin: 0, end: 1)
-        .animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
-  }
-
-  void showModal(context) {
-    showModalBottomSheet(
-      elevation: 0,
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return MyModal(
-          product: widget.product,
-        );
-      },
-    );
-  }
-
-  void animate() {
-    if (controller.isCompleted) {
-      controller.reverse();
-    } else
-      controller.forward();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        animate();
-      },
-      child: AnimatedBuilder(
-        animation: scaleAnimation,
-        builder: (context, child) => Opacity(
-          opacity: scaleAnimation.value,
-          child: SizedBox.expand(
-            child: Container(
-              color: Theme.of(context)
-                  .accentColor
-                  .withOpacity(scaleAnimation.value),
-              child: ScaleTransition(
-                scale: scaleAnimation,
-                child: actions(),
-              ),
-            ),
-          ),
-        ),
+      builder: (context) => MyModal(
+        product: this.product,
       ),
     );
   }
-
-  Widget actions() {
-    return AnimatedBuilder(
-      animation: scaleAnimation,
-      builder: (context, child) => Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              // mainAxisSize: MainAxisSize.min
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                action(
-                    icon: Icons.edit,
-                    onTap: () {
-                      print('edit');
-                    }),
-                SizedBox(
-                  width: 15,
-                ),
-                Text('Edit', style: TextStyle(color: Colors.white)),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              // mainAxisSize: MainAxisSize.min
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                action(
-                    icon: Icons.add_shopping_cart,
-                    onTap: () {
-                      print('shop');
-                    }),
-                SizedBox(
-                  width: 15,
-                ),
-                Text('Add', style: TextStyle(color: Colors.white)),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget action({IconData icon, void Function() onTap}) => InkWell(
-        onTap: onTap,
-        child: Card(
-          margin: EdgeInsets.zero,
-          color: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-          child: IconButton(
-            iconSize: 20,
-            onPressed: () {},
-            icon: Icon(
-              icon,
-              color: Theme.of(context).accentColor,
-              size: 20,
-            ),
-          ),
-        ),
-      );
 }

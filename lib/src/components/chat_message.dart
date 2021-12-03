@@ -3,11 +3,14 @@ import 'package:vpay/src/models/message.dart';
 
 class ChatMessageWidget extends StatefulWidget {
   final Message message;
-  final Message nextMessage;
+  final Message? nextMessage;
   final int index;
 
-  ChatMessageWidget(this.message, this.nextMessage, this.index)
-      : super(key: Key(index.toString()));
+  ChatMessageWidget(
+    this.message,
+    this.index,
+    this.nextMessage,
+  ) : super(key: Key(index.toString()));
 
   @override
   _ChatMessageWidgetState createState() => _ChatMessageWidgetState();
@@ -22,7 +25,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
   void initState() {
     super.initState();
     if (widget.nextMessage != null) {
-      preceding = widget.message.author == widget.nextMessage.author;
+      preceding = widget.message.author == widget.nextMessage!.author;
     }
   }
 

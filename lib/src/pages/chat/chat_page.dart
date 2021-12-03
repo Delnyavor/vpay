@@ -5,7 +5,7 @@ import 'package:vpay/src/components/chat_message.dart';
 import 'package:vpay/src/provider/chat_provider.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key key}) : super(key: key);
+  const ChatPage({Key? key}) : super(key: key);
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -13,7 +13,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   ScrollController scrollController = ScrollController();
-  ChatProvider chatProvider;
+  late ChatProvider chatProvider;
   List messages = [];
 
   @override
@@ -27,14 +27,14 @@ class _ChatPageState extends State<ChatPage> {
     if (index < messages.length - 1) {
       return ChatMessageWidget(
         messages[index],
-        messages[index + 1],
         messages.length,
+        messages[index + 1],
       );
     }
     return ChatMessageWidget(
       messages[index],
-      null,
       messages.length,
+      null,
     );
   }
 

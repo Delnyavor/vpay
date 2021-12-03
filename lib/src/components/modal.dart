@@ -6,14 +6,14 @@ import 'package:vpay/src/components/add_to_cart.dart';
 class MyModal extends StatefulWidget {
   final Product product;
 
-  const MyModal({Key key, this.product}) : super(key: key);
+  const MyModal({Key? key, required this.product}) : super(key: key);
   @override
   _MyModalState createState() => _MyModalState();
 }
 
 class _MyModalState extends State<MyModal> with TickerProviderStateMixin {
   bool second = false;
-  double dpr;
+  late double dpr;
 
   @override
   void didChangeDependencies() {

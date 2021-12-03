@@ -7,13 +7,13 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  String _businessName, _paymentNumber;
-  Animation<double> animation;
-  Tween<double> tween;
-  AnimationController controller;
-  BuildContext snackBarContext;
-  FocusNode node1, node2;
-  double devicePixelRatio, deviceHeight, deviceWidth;
+  late String _businessName, _paymentNumber;
+  late Animation<double> animation;
+  late Tween<double> tween;
+  late AnimationController controller;
+  late BuildContext snackBarContext;
+  late FocusNode node1, node2;
+  late double devicePixelRatio, deviceHeight, deviceWidth;
 
   @override
   void didChangeDependencies() {
@@ -120,7 +120,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
         if (isPortrait())
           AnimatedBuilder(
             animation: controller,
-            builder: (BuildContext context, Widget child) => Container(
+            builder: (BuildContext context, Widget? child) => Container(
               constraints: BoxConstraints(maxHeight: animation.value),
               child: Padding(
                 padding:
@@ -143,14 +143,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   'Let\'s get started',
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headline5!
                       .copyWith(fontSize: 28, color: Colors.lightBlue[600]),
                 ),
                 Text(
                   "Create a free account",
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(height: 1.6, color: Colors.grey[700]),
                 )
               ],
@@ -181,14 +181,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
               node1.dispose();
               FocusScope.of(context).requestFocus(node2);
             },
-            validator: (String value) {
-              if (value.isEmpty)
+            validator: (String? value) {
+              if (value!.isEmpty)
                 return "Please fill out all fields";
               else
                 return null;
             },
-            onSaved: (String val) {
-              _businessName = val;
+            onSaved: (String? val) {
+              _businessName = val!;
             },
           ),
           SizedBox(
@@ -207,14 +207,14 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
               node2.dispose();
               submit();
             },
-            validator: (String value) {
-              if (value.length < 10) {
+            validator: (String? value) {
+              if (value!.length < 10) {
                 return 'Number is less than ten digits';
               } else
                 return null;
             },
-            onSaved: (String val) {
-              _paymentNumber = val;
+            onSaved: (String? val) {
+              _paymentNumber = val!;
             },
           ),
           SizedBox(
@@ -249,8 +249,8 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
   }
 
   Future<bool> validateInputs() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       return true;
     } else
       return false;
@@ -304,7 +304,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
               'Sign in',
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2
+                  .subtitle2!
                   .copyWith(color: Colors.lightBlue),
             ),
             onTap: () {

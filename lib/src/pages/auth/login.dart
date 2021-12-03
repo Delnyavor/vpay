@@ -12,17 +12,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   bool _obfuscation = true;
   bool _isLoading = false;
-  String _email, _password;
-  FocusNode focusNode1, focusNode2;
-  Animation<double> animation;
-  Animation<double> opAnimation;
-  Tween<double> tween, opacityTween;
-  AnimationController controller;
-  AnimationController opController;
-  ScrollController scrollController;
-  BuildContext snackBarContext;
-  double devicePixelRatio, deviceHeight, deviceWidth;
-  double dpr;
+  late String _email, _password;
+  late FocusNode focusNode1, focusNode2;
+  late Animation<double> animation;
+  late Animation<double> opAnimation;
+  late Tween<double> tween, opacityTween;
+  late AnimationController controller;
+  late AnimationController opController;
+  late ScrollController scrollController;
+  late BuildContext snackBarContext;
+  late double devicePixelRatio, deviceHeight, deviceWidth;
+  late double dpr;
 
   @override
   void didChangeDependencies() {
@@ -90,12 +90,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     try {
       print(scrollController.offset);
       // If user scrolls up by 10 pixels from the bottom
-      if (!notification.dragDetails.delta.direction.isNegative &&
+      if (!notification.dragDetails!.delta.direction.isNegative &&
           notification.metrics.maxScrollExtent - scrollController.offset > 10) {
         opController.reverse();
       }
       //if user scrolls down until the last 40 pixels
-      if (notification.dragDetails.delta.direction.isNegative &&
+      if (notification.dragDetails!.delta.direction.isNegative &&
           notification.metrics.maxScrollExtent - scrollController.offset < 40) {
         opController.forward();
       }
@@ -182,7 +182,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         if (isPortrait())
           AnimatedBuilder(
             animation: controller,
-            builder: (BuildContext context, Widget child) => Container(
+            builder: (BuildContext context, Widget? child) => Container(
               constraints: BoxConstraints(maxHeight: animation.value),
               child: Padding(
                 padding:
@@ -205,14 +205,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   'Welcome',
                   style: Theme.of(context)
                       .textTheme
-                      .headline5
+                      .headline5!
                       .copyWith(fontSize: 28, color: Colors.lightBlue[600]),
                 ),
                 Text(
                   "Sign in to continue",
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(height: 1.6, color: Colors.grey[700]),
                 )
               ],
@@ -242,8 +242,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           ),
           keyboardType: TextInputType.emailAddress,
           validator: validateEmail,
-          onSaved: (String val) {
-            _email = val;
+          onSaved: (String? val) {
+            _email = val!;
           },
         ),
         SizedBox(
@@ -274,8 +274,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           },
           obscureText: _obfuscation,
           validator: validatePassword,
-          onSaved: (String val) {
-            _password = val;
+          onSaved: (String? val) {
+            _password = val!;
           },
         ),
         SizedBox(height: ResponsiveSize.flexHeight(25, deviceHeight)),
@@ -285,18 +285,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     );
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
+  String? validateEmail(String? value) {
+    String pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
+    if (!regex.hasMatch(value!))
       return 'Enter Valid Email';
     else
       return null;
   }
 
-  String validatePassword(String value) {
-    if (value.length < 8) {
+  String? validatePassword(String? value) {
+    if (value!.length < 8) {
       return 'Pasword must be at least 8 characters long';
     } else if (!value.contains(RegExp(r'[0-9]{1,}'))) {
       return 'Password must be alphanumeric';
@@ -305,8 +305,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 
   Future<bool> validateInputs() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       return true;
     } else
       return false;
@@ -373,7 +373,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         if (validated) {
           print('$_email , $_password');
           signIn(snackBarContext,
-              email: _email, password: _password, errorFunc: resetState);
+              email: _email, password: _password, onError: resetState);
         } else
           resetState();
       },
@@ -389,7 +389,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Widget bottom() {
     return AnimatedBuilder(
       animation: opController,
-      builder: (BuildContext context, Widget child) => Container(
+      builder: (BuildContext context, Widget? child) => Container(
         padding: const EdgeInsets.only(bottom: 30.0, top: 20),
         child: AnimatedOpacity(
           duration: Duration(milliseconds: 200),
@@ -407,7 +407,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   'Sign up',
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(color: Colors.lightBlue),
                 ),
                 onTap: () {

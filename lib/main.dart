@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:vpay/src/pages/home/landing.dart';
 import 'package:vpay/src/provider/chat_provider.dart';
 import 'package:vpay/src/provider/products_provider.dart';
-import 'package:vpay/src/components/modal.dart';
 import 'src/pages/auth/userdetails.dart';
 import 'src/pages/auth/signup.dart';
 
@@ -25,35 +24,36 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // return MultiProvider(
-    //   providers: [
-    //     ChangeNotifierProvider(create: (context) => ChatProvider()),
-    //     ChangeNotifierProvider(
-    //       create: (context) => ProductsProvider(),
-    //     ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ChatProvider()),
+        ChangeNotifierProvider(
+          create: (context) => ProductsProvider(),
+        ),
 
-    //     // ChangeNotifierProvider(create: (context) => CartProvider())
-    //   ],
-    return MaterialApp(
-      title: 'Vpay',
-      theme: ThemeData(
-        // primaryColor: Color(0xff2dc8ac),
-        // accentColor: Color(0xff0080F6),
-        primaryColor: Color(0xff004aff),
-        fontFamily: GoogleFonts.poppins().fontFamily,
-        textTheme: GoogleFonts.poppinsTextTheme().copyWith(),
+        // ChangeNotifierProvider(create: (context) => CartProvider())
+      ],
+      child: MaterialApp(
+        title: 'Vpay',
+        theme: ThemeData(
+          // primaryColor: Color(0xff2dc8ac),
+          // accentColor: Color(0xff0080F6),
+          primaryColor: Color(0xff004aff),
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          textTheme: GoogleFonts.poppinsTextTheme().copyWith(),
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => Landing(),
+          Routes.login: (context) => LoginPage(),
+          Routes.signup: (context) => SignUpPage(),
+          Routes.userdetails: (context) => UserDetails(),
+          Routes.finalisation: (context) => FinalisationPage(),
+          Routes.landing: (context) => LandingPage(),
+          // Routes.modal: (context) => MyModal(),
+          Routes.product: (context) => DetailsPage()
+        },
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => Landing(),
-        Routes.login: (context) => LoginPage(),
-        Routes.signup: (context) => SignUpPage(),
-        Routes.userdetails: (context) => UserDetails(),
-        Routes.finalisation: (context) => FinalisationPage(),
-        Routes.landing: (context) => LandingPage(),
-        Routes.modal: (context) => MyModal(),
-        Routes.product: (context) => DetailsPage()
-      },
     );
   }
 }
@@ -70,16 +70,14 @@ class Routes {
 }
 
 class Landing extends StatefulWidget {
-  Landing({Key key, this.title}) : super(key: key);
-
-  final String title;
+  Landing();
 
   @override
   _LandingState createState() => _LandingState();
 }
 
 class _LandingState extends State<Landing> {
-  double deviceWidth;
+  late double deviceWidth;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -100,8 +98,9 @@ class _LandingState extends State<Landing> {
           child: Text('Hello'),
           onPressed: () {
             FirebaseAuth auth = FirebaseAuth.instance;
-            User user = auth.currentUser;
+            User? user = auth.currentUser;
 
+            // ignore: unnecessary_null_comparison
             if (user != null)
               Navigator.pushNamed(context, Routes.inventory);
             else

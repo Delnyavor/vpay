@@ -3,7 +3,7 @@ final baseHeight = 843.4285714285714;
 final basePixelRatio = 2.625;
 
 class ResponsiveSize {
-  static double devicePixelRatio;
+  static double devicePixelRatio = 1.0;
 
   static double flexHeight(double value, deviceHeight) {
     return value * deviceHeight / baseHeight;

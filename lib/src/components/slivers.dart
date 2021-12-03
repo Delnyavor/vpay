@@ -5,9 +5,9 @@ import 'clippers.dart';
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
   });
   final double minHeight;
   final double maxHeight;
@@ -87,7 +87,7 @@ class CutHeader extends StatelessWidget {
 
 class SliverHeader extends StatelessWidget {
   SliverHeader(
-      {this.child,
+      {required this.child,
       this.minHeight = kToolbarHeight,
       this.maxHeight = kToolbarHeight,
       this.pinned = false,
@@ -104,7 +104,7 @@ class SliverHeader extends StatelessWidget {
       floating: floating,
       delegate: _SliverAppBarDelegate(
         minHeight: minHeight,
-        maxHeight: maxHeight ?? double.infinity,
+        maxHeight: maxHeight,
         child: child,
       ),
     );
