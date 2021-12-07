@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vpay/src/dao/chat_dao.dart';
 import 'package:vpay/src/models/category.dart';
 import 'package:vpay/src/pages/chat/chat_page.dart';
 import 'package:vpay/src/utils/route_transitions.dart';
-import 'package:vpay/src/components/buttons.dart';
 import 'package:vpay/src/components/slideshow.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -93,22 +93,21 @@ class DetailsPageState extends State<DetailsPage>
 
   Widget itemName() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
-            child: Text(
-              'An Appropriately Descriptive Item Name',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.6,
-              ),
+          Text(
+            widget.product!.name,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.6,
             ),
           ),
           SizedBox(width: 15),
-          favoriteButton()
+          favoriteButton(),
         ],
       ),
     );
@@ -130,6 +129,7 @@ class DetailsPageState extends State<DetailsPage>
           SizedBox(height: 5),
           Text(
             '''So that there is no discrepancy in sound between the beginning and the end: the tone should not be too soft or too loud, but rather, like a properly built organ, the ensemble should remain unaltered and constant ''',
+            textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 13,
               height: 1.7,
@@ -274,10 +274,16 @@ class DetailsPageState extends State<DetailsPage>
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(FontAwesomeIcons.wallet, size: 18),
-          SizedBox(width: 6),
-          price('GHC 1,500'),
+          Row(
+            children: [
+              Icon(FontAwesomeIcons.wallet, size: 18),
+              SizedBox(width: 6),
+              price('GHC 1,500'),
+            ],
+          ),
+          SizedBox(width: 50),
           tradeButton()
         ],
       ),
@@ -285,38 +291,18 @@ class DetailsPageState extends State<DetailsPage>
   }
 
   Widget tradeButton() {
-    return Flexible(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 70),
-        child: textButton(
-          context,
-          label: 'Purchase',
-          function: () {
-            Navigator.push(context, fadeInRoute(ChatPage()));
-          },
-          shrink: false,
-          labelStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-            letterSpacing: 0.5,
-          ),
-          buttonStyle: ButtonStyle(
-            shape: MaterialStateProperty.all<OutlinedBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(60),
-              ),
-            ),
-            backgroundColor: MaterialStateProperty.all<Color>(
-              Colors.indigoAccent[700]!,
-            ),
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              EdgeInsets.symmetric(
-                horizontal: 0,
-                vertical: 14,
-              ),
-            ),
-          ),
-        ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.indigoAccent[700],
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(
+        color: Colors.white,
+        icon: Icon(Icons.shopping_basket),
+        onPressed: () async {
+          await ChatDao().createChatRoom('vendorId', 'userId');
+          Navigator.push(context, fadeInRoute(ChatPage()));
+        },
       ),
     );
   }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:vpay/src/pages/home/search_page.dart';
 
 // ignore: must_be_immutable
 class SearchWidget extends StatelessWidget {
@@ -13,23 +11,26 @@ class SearchWidget extends StatelessWidget {
     return GestureDetector(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
-        padding: const EdgeInsets.only(left: 20, right: 16),
+        // padding: const EdgeInsets.only(left: 20, right: 16),
         decoration: BoxDecoration(
+          // border: Border.all(
+          //   color: Color(0x3fafbbf1),
+          // ),
           borderRadius: BorderRadius.circular(30),
-          color: Colors.white,
+          color: Colors.grey[300],
           boxShadow: [
             BoxShadow(
-              color: Colors.blueGrey[50]!.withOpacity(0.5),
-              blurRadius: 20,
-              spreadRadius: 5,
-              offset: Offset(0, 10),
-            ),
-            BoxShadow(
-              color: Colors.blueGrey[50]!.withOpacity(1),
-              blurRadius: 1,
+              color: Color(0x1fafbbd1),
+              blurRadius: 10,
               spreadRadius: 0,
-              offset: Offset(0, 3),
+              offset: Offset(0, 8),
             ),
+            // BoxShadow(
+            //   color: Color(0x1fafbbc1),
+            //   blurRadius: 1,
+            //   spreadRadius: 0,
+            //   offset: Offset(0, 3),
+            // ),
           ],
         ),
         child: searchBar(context),
@@ -41,21 +42,24 @@ class SearchWidget extends StatelessWidget {
     return Hero(
       tag: 'search',
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 6, 0),
-            child: Icon(
-              FontAwesomeIcons.search,
-              size: 12,
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(12, 0, 6, 0),
+          //   child: Icon(
+          //     FontAwesomeIcons.search,
+          //     size: 12,
+          //   ),
+          // ),
+          Center(
+            child: Text(
+              'Search for a product',
+              textAlign: TextAlign.left,
+              style: Theme.of(context)
+                  .textTheme
+                  .caption!
+                  .copyWith(letterSpacing: 0.5, color: Colors.black45),
             ),
-          ),
-          Text(
-            'Search for a product',
-            textAlign: TextAlign.left,
-            style: Theme.of(context)
-                .textTheme
-                .caption!
-                .copyWith(letterSpacing: 0.5, color: Colors.black45),
           ),
         ],
       ),

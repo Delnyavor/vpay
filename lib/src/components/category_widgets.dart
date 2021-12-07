@@ -132,7 +132,7 @@ class ProductWidget extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  'assets/${(index % 3) + 1}.png',
+                  'assets/${(index % 3) + 1}.jpg',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -149,14 +149,14 @@ class ProductWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Marlin Waterloom in a place',
+              product.name,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.black.withOpacity(0.7),
+                fontWeight: FontWeight.w400,
+                color: Colors.black87,
                 fontSize: 12,
-                letterSpacing: 0.3,
+                letterSpacing: 0.1,
               ),
             ),
             SizedBox(height: 3),
@@ -167,9 +167,9 @@ class ProductWidget extends StatelessWidget {
                   child: Text(
                     'GHS${product.price}',
                     style: textTheme.overline!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 10,
-                      color: Colors.black45,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -189,10 +189,10 @@ class ProductWidget extends StatelessWidget {
             child: Container(
               height: 25,
               width: 25,
-              color: theme.accentColor.withOpacity(0.15),
+              color: theme.colorScheme.secondary.withOpacity(0.15),
               child: Icon(
                 icon,
-                color: theme.accentColor,
+                color: theme.colorScheme.secondary,
                 size: 17,
               ),
             ),

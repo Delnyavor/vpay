@@ -145,6 +145,8 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
         SliverPadding(
           padding: const EdgeInsets.only(bottom: 25, top: 10),
           sliver: SliverHeader(
+            minHeight: 45,
+            maxHeight: 45,
             floating: true,
             child: SearchWidget(
               newRoute: Container(),
@@ -152,10 +154,10 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          padding: const EdgeInsets.only(top: 20, bottom: 20),
           sliver: SliverHeader(
-            minHeight: 70,
-            maxHeight: 70,
+            minHeight: 20,
+            maxHeight: 20,
             child: tabBar(),
           ),
         ),
@@ -192,23 +194,25 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
   Widget tabBar() {
     return Theme(
       data: theme.copyWith(
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
-      ),
+          // highlightColor: Colors.transparent,
+          // splashColor: Colors.transparent,
+          ),
       child: ScrollConfiguration(
         behavior: ScrollBehavior(),
         child: TabBar(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           labelStyle: theme.textTheme.caption!.copyWith(
-              letterSpacing: 0.4, fontWeight: FontWeight.w500, fontSize: 10),
+              letterSpacing: 0.2, fontWeight: FontWeight.w500, fontSize: 11),
           controller: tabController,
-          labelColor: Colors.black87,
+          labelColor: Colors.black,
           isScrollable: true,
           unselectedLabelColor: Colors.black38,
           unselectedLabelStyle: theme.textTheme.caption!.copyWith(
-              letterSpacing: 0.4, fontWeight: FontWeight.w400, fontSize: 10),
+              letterSpacing: 0.2, fontWeight: FontWeight.w400, fontSize: 11),
           indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
+          labelPadding: const EdgeInsets.symmetric(horizontal: 8),
           // indicatorSize: TabBarIndicatorSize.tab,
-          // labelPadding: const EdgeInsets.only(left: 20, right: 5),
+
           onTap: (index) {
             setState(() {
               selectedCategory = categories[index];
@@ -216,8 +220,8 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
           },
           tabs: [
             for (final category in categories)
-              tab(
-                category.name,
+              Tab(
+                text: category.name,
               )
           ],
         ),
@@ -264,35 +268,6 @@ class _FrontLayerState extends State<FrontLayer> with TickerProviderStateMixin {
           size: 18,
         ),
         //  Icons.notifications_outlined),
-      ),
-    );
-  }
-
-  Widget tab(String label) {
-    Color? blue = Colors.indigo[400];
-    Color white = Colors.white;
-
-    return Tab(
-      text: label,
-      icon: DecoratedBox(
-        decoration: BoxDecoration(
-            color: label == selectedCategory.name ? blue : white,
-            shape: BoxShape.circle,
-            border: Border.fromBorderSide(
-              BorderSide(
-                width: 0.5,
-                color: Colors.blueGrey.withOpacity(0.5),
-              ),
-            )
-            // boxShadow: [BoxShadow(color: Colors.blueGrey.withOpacity(0.5))],
-            ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.card_giftcard_rounded,
-            color: label != selectedCategory.name ? blue : white,
-          ),
-        ),
       ),
     );
   }

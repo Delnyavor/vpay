@@ -77,58 +77,24 @@ class _BackLayerState extends State<BackLayer> {
           size: 18,
           color: Colors.white,
         ),
-        title: Text('Transactions', style: theme),
+        title: Text('Ongoing Transactions', style: theme),
         onTap: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => SalesReportPage()));
         },
       ),
-      // SizedBox(height: 5),
-      ListTile(
-          leading: Icon(
-            FontAwesomeIcons.creditCard,
-            size: 18,
-            color: Colors.white,
-          ),
-          title: Text('Enter Promo Code', style: theme)),
-      // SizedBox(height: 5),
-      ListTile(
-          leading: Icon(
-            Icons.settings,
-            size: 18,
-            color: Colors.white,
-          ),
-          title: Text('Settings', style: theme)),
-      // SizedBox(height: 5),
-      ListTile(
-          leading: Icon(
-            FontAwesomeIcons.outdent,
-            size: 18,
-            color: Colors.white,
-          ),
-          title: Text('Logout', style: theme)),
-      // SizedBox(height: 5),
       ListTile(
         leading: Icon(
           FontAwesomeIcons.ccAmazonPay,
           size: 18,
           color: Colors.white,
         ),
-        title: Text('Transactions', style: theme),
+        title: Text('History', style: theme),
         onTap: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => SalesReportPage()));
         },
       ),
-      // SizedBox(height: 5),
-      ListTile(
-          leading: Icon(
-            FontAwesomeIcons.creditCard,
-            size: 18,
-            color: Colors.white,
-          ),
-          title: Text('Enter Promo Code', style: theme)),
-      // SizedBox(height: 5),
       ListTile(
           leading: Icon(
             Icons.settings,
@@ -136,7 +102,6 @@ class _BackLayerState extends State<BackLayer> {
             color: Colors.white,
           ),
           title: Text('Settings', style: theme)),
-      // SizedBox(height: 5),
       ListTile(
           leading: Icon(
             FontAwesomeIcons.outdent,

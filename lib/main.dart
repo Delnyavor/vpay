@@ -22,6 +22,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final ThemeData theme = ThemeData();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -30,18 +31,20 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ProductsProvider(),
         ),
-
-        // ChangeNotifierProvider(create: (context) => CartProvider())
       ],
       child: MaterialApp(
         title: 'Vpay',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          // primaryColor: Color(0xff2dc8ac),
-          // accentColor: Color(0xff0080F6),
-          primaryColor: Color(0xff004aff),
-          fontFamily: GoogleFonts.poppins().fontFamily,
-          textTheme: GoogleFonts.poppinsTextTheme().copyWith(),
-        ),
+            colorScheme: theme.colorScheme.copyWith(
+                primary: Color(0xff004aff),
+                secondary: Colors.indigoAccent.shade700),
+            fontFamily: GoogleFonts.poppins().fontFamily,
+            textTheme: GoogleFonts.poppinsTextTheme().copyWith()
+
+            // primaryColor: Color(0xff2dc8ac),
+            // accentColor: Color(0xff0080F6),
+            ),
         initialRoute: '/',
         routes: {
           '/': (context) => Landing(),

@@ -58,7 +58,7 @@ class _ChatMessageWidgetState extends State<ChatMessageWidget> {
       margin: const EdgeInsets.fromLTRB(8, 0, 8, 1),
       decoration: BoxDecoration(
         color: widget.message.isMe
-            ? Theme.of(context).primaryColor
+            ? Theme.of(context).colorScheme.primary
             : Color(0xfff0f1f6),
         borderRadius: BorderRadius.only(
           topLeft: widget.message.isMe ? roundRadius : pointedRadius,

@@ -16,9 +16,9 @@ class _SlideShowState extends State<SlideShow> {
   late Animation<double> fadeIn;
   int subListIndex = 0;
   List<String> images = [
-    'assets/1.png',
-    'assets/2.png',
-    'assets/3.png',
+    'assets/1.jpg',
+    'assets/2.jpg',
+    'assets/3.jpg',
   ];
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _SlideShowState extends State<SlideShow> {
 
   Widget mainList() {
     return AspectRatio(
-      aspectRatio: 1.1,
+      aspectRatio: 1.4,
       child: PageView(
         controller: ctrl,
         children: images.map((e) => displayCard(e)).toList(),
@@ -59,9 +59,9 @@ class _SlideShowState extends State<SlideShow> {
         child: Hero(
           tag: '0',
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(0),
               image:
                   DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
             ),

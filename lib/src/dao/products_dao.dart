@@ -33,7 +33,7 @@ class ProductsDao {
   }
 
   Future<List<Category>> getCategories() async {
-    await catRef.orderBy("id").get().then(
+    await catRef.orderBy("index").get().then(
       (e) {
         categories = e.docs.map((f) => Category.fromSnapshot(f)).toList();
       },

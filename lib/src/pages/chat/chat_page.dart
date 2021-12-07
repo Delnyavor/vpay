@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vpay/src/components/chat_input.dart';
-import 'package:vpay/src/models/message.dart';
 import 'package:vpay/src/components/chat_message.dart';
 import 'package:vpay/src/provider/chat_provider.dart';
 

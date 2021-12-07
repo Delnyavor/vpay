@@ -80,7 +80,7 @@ class ChatInputState extends State<ChatInput> {
       icon: Icon(
         Icons.send_outlined,
         size: 20,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).colorScheme.primary,
       ),
     );
   }
